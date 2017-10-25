@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ShoeServiceImpl implements ShoeService{
@@ -46,6 +47,22 @@ public class ShoeServiceImpl implements ShoeService{
                 shoe.getShoeCards().add(king);
                 shoe.getShoeCards().add(ace);
             }
+        }
+        return shoe;
+    }
+
+    public Shoe shuffleShoe(Shoe shoe) {
+        Random r = new Random();
+        int pent = r.nextInt(52) + 312;
+        shoe.setYellow(pent);
+        for (int i = shoe.getShoeCards().size() - 1; i > 1; i--) {
+            int num = r.nextInt(i);
+            Card temp = shoe.getShoeCards().get(num);
+            Card last = shoe.getShoeCards().get(i);
+            shoe.getShoeCards().remove(num);
+            shoe.getShoeCards().add(num, last);
+            shoe.getShoeCards().remove(i);
+            shoe.getShoeCards().add(i, temp);
         }
         return shoe;
     }
