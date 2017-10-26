@@ -1,13 +1,27 @@
 package com.schools.blackjack.model;
 
+import javax.persistence.*;
 import java.util.List;
 
-public class Table {
+@Entity
+@Table(name = "blackjack_tables")
+public class CardTable {
+    private int id;
     private Shoe shoe;
     private List<Player> players;
     private Dealer dealer;
 
-    public Table() {
+    public CardTable() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Shoe getShoe() {

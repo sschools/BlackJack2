@@ -1,31 +1,33 @@
 package com.schools.blackjack.service;
 
+import com.schools.blackjack.model.CardTable;
 import com.schools.blackjack.model.Dealer;
 import com.schools.blackjack.model.Player;
 import com.schools.blackjack.model.Shoe;
-import com.schools.blackjack.model.Table;
 import com.schools.blackjack.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TableServiceImpl implements TableService {
     @Autowired
     TableRepository tableRepository;
 
     @Override
-    public Table add(Table table) {
-        return tableRepository.save(table);
+    public CardTable add(CardTable cardTable) {
+        return tableRepository.save(cardTable);
     }
 
     @Override
-    public void update(Table table) {
-        tableRepository.save(table);
+    public void update(CardTable cardTable) {
+        tableRepository.save(cardTable);
     }
 
     @Override
-    public Table getById(int id) {
+    public CardTable getById(int id) {
         return tableRepository.findOne(id);
     }
 
@@ -35,8 +37,8 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public Table initializeTable(int numPlayers) {
-        Table table = new Table();
+    public CardTable initializeTable(int numPlayers) {
+        CardTable cardTable = new CardTable();
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
             Player temp = new Player();
@@ -44,13 +46,13 @@ public class TableServiceImpl implements TableService {
             temp.setName("Player #" + Integer.toString(pNum));
             players.add(temp);
         }
-        table.setPlayers(players);
+        cardTable.setPlayers(players);
         Shoe shoe = new Shoe();
-        table.setShoe(shoe);
+        cardTable.setShoe(shoe);
 
         Dealer dealer = new Dealer();
-        table.setDealer(dealer);
+        cardTable.setDealer(dealer);
 
-        return table;
+        return tableRepository.save(cardTable);
     }
 }

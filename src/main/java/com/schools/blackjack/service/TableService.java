@@ -1,12 +1,12 @@
 package com.schools.blackjack.service;
 
-import com.schools.blackjack.model.Table;
+import com.schools.blackjack.model.CardTable;
 
 public interface TableService {
-    Table add(Table table);
-    void update (Table table);
-    Table getById (int id);
+    CardTable add(CardTable cardTable);
+    void update (CardTable cardTable);
+    CardTable getById (int id);
     void delete (int id);
 
-    Table initializeTable(int numPlayers);
+    CardTable initializeTable(int numPlayers);
 }
