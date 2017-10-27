@@ -43,4 +43,14 @@ public class Shoe {
     public void setShoeCards(List<Card> shoeCards) {
         this.shoeCards = shoeCards;
     }
+
+    @Override
+    public String toString() {
+        return "Shoe{" +
+                "numDecks=" + numDecks +
+                ", index=" + index +
+                ", yellow=" + yellow +
+                ", shoeCards=" + shoeCards +
+                '}';
+    }
 }

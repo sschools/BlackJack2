@@ -22,12 +22,16 @@ public class GameController {
         return "index";
     }
 
+    @RequestMapping(path = "/cardTable", method = RequestMethod.GET)
+    public String table() {
+        return "cardTable";
+    }
+
     @RequestMapping(path = "/index", method = RequestMethod.POST)
     public String start(@RequestParam(value="num-players") int num) {
         CardTable cardTable = tableService.initializeTable(num);
         cardTable.setShoe(shoeService.loadShoe(cardTable.getShoe()));
         cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
-        System.out.println("Shoe: " + cardTable.getShoe());
-        return "redirect:cardTable";
+        return "redirect:/cardTable";
     }
 }

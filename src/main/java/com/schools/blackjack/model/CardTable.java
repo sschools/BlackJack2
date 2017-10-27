@@ -3,8 +3,6 @@ package com.schools.blackjack.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "blackjack_tables")
 public class CardTable {
     private int id;
     private Shoe shoe;

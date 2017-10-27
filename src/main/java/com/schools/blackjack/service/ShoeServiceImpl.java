@@ -12,6 +12,9 @@ import java.util.Random;
 public class ShoeServiceImpl implements ShoeService{
     @Override
     public Shoe loadShoe(Shoe shoe) {
+        shoe.setNumDecks(8);
+        List<Card> cards = new ArrayList<>();
+        shoe.setShoeCards(cards);
         List<String> suits = new ArrayList();
         suits.add("Hearts");
         suits.add("Clubs");
