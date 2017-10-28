@@ -5,6 +5,7 @@ import com.schools.blackjack.service.ShoeService;
 import com.schools.blackjack.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,19 +18,22 @@ public class GameController {
     @Autowired
     ShoeService shoeService;
 
+    CardTable cardTable = new CardTable();
+
     @RequestMapping(path ="/", method = RequestMethod.GET)
     public String index() {
         return "index";
     }
 
     @RequestMapping(path = "/cardTable", method = RequestMethod.GET)
-    public String table() {
+    public String showTable(Model model) {
+        model.addAttribute("table", cardTable);
         return "cardTable";
     }
 
     @RequestMapping(path = "/index", method = RequestMethod.POST)
     public String start(@RequestParam(value="num-players") int num) {
-        CardTable cardTable = tableService.initializeTable(num);
+        cardTable = tableService.initializeTable(num);
         cardTable.setShoe(shoeService.loadShoe(cardTable.getShoe()));
         cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
         return "redirect:/cardTable";
