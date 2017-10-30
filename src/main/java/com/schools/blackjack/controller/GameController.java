@@ -36,6 +36,8 @@ public class GameController {
         cardTable = tableService.initializeTable(num);
         cardTable.setShoe(shoeService.loadShoe(cardTable.getShoe()));
         cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
+        CardTable tempTable = tableService.dealCards(cardTable);
+        cardTable = tempTable;
         return "redirect:/cardTable";
     }
 }

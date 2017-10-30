@@ -67,6 +67,7 @@ public class ShoeServiceImpl implements ShoeService{
             shoe.getShoeCards().remove(i);
             shoe.getShoeCards().add(i, temp);
         }
+        shoe.setIndex(1);
         return shoe;
     }
 }
