@@ -8,11 +8,19 @@
 <h1>Table #1</h1>
 <div>
     <h5>Dealer:</h5>
+    <p th:each="card : ${table.getDealer().getHand().getCards()}">
+        <span th:text="${card.getName()} "></span>
+        <span th:text="${card.getSuit()}"></span>
+    </p>
 </div>
 <div th:each="player : ${table.getPlayers()}">
     <h5 th:text="${player.getName()} + ':'"></h5>
-    <div th:each="hand : ${table.player.getHands()}">
-        <h6>Hand Goes Here</h6>
+    <div th:each="hand : ${player.getHands()}">
+        <h6>Cards:</h6>
+        <p th:each="card : ${hand.getCards()}">
+            <span th:text="${card.getName()} "></span>
+            <span th:text="${card.getSuit()}"></span>
+        </p>
     </div>
 </div>
 
