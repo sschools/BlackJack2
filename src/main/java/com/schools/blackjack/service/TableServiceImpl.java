@@ -56,7 +56,7 @@ public class TableServiceImpl implements TableService {
         List<Card> cards1 = new ArrayList<>();
         dealerHand.setCards(cards1);
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i));
-        dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i));
+        dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));
         dealer.setHand(dealerHand);
 
         int currentLoc = shoe.getIndex();

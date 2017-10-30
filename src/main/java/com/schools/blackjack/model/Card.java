@@ -4,6 +4,7 @@ public class Card {
     private int value;
     private String name;
     private String suit;
+    private String abName;
 
     public Card() {
 
@@ -31,5 +32,13 @@ public class Card {
 
     public void setSuit(String suit) {
         this.suit = suit;
+    }
+
+    public String getAbName() {
+        return abName;
+    }
+
+    public void setAbName(String abName) {
+        this.abName = abName;
     }
 }
