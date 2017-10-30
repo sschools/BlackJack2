@@ -35,18 +35,26 @@ public class TableServiceImpl implements TableService {
         List<Player> players = table.getPlayers();
         for (Player player : players) {
             List<Hand> hands = new ArrayList<>();
+            Hand hand = new Hand();
+            hands.add(hand);
             player.setHands(hands);
         }
         int i = table.getPlayers().size();
         for (int j = 0; j < i; j++) {
             Hand currentHand = players.get(j).getHands().get(0);
+            List<Card> cards = new ArrayList<>();
+            currentHand.setCards(cards);
             currentHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + j));
             currentHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + j + i + 1));
             List<Hand> hands = new ArrayList<>();
             hands.add(currentHand);
             players.get(j).setHands(hands);
         }
+        Hand hand = new Hand();
+        dealer.setHand(hand);
         Hand dealerHand = dealer.getHand();
+        List<Card> cards1 = new ArrayList<>();
+        dealerHand.setCards(cards1);
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i));
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i));
         dealer.setHand(dealerHand);

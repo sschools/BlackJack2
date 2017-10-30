@@ -11,6 +11,9 @@
 </div>
 <div th:each="player : ${table.getPlayers()}">
     <h5 th:text="${player.getName()} + ':'"></h5>
+    <div th:each="hand : ${table.player.getHands()}">
+        <h6>Hand Goes Here</h6>
+    </div>
 </div>
 
 </body>
