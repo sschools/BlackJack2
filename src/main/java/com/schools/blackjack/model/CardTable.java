@@ -8,6 +8,8 @@ public class CardTable {
     private Shoe shoe;
     private List<Player> players;
     private Dealer dealer;
+    private boolean dealerBlackJack;
+    private String message;
 
     public CardTable() {
     }
@@ -44,5 +46,27 @@ public class CardTable {
 
     public void setDealer(Dealer dealer) {
         this.dealer = dealer;
+    }
+
+    public boolean isDealerBlackJack() {
+        return dealerBlackJack;
+    }
+
+    public void setDealerBlackJack(Hand dealHand) {
+        int valOne = dealHand.getCards().get(0).getValue();
+        int valTwo = dealHand.getCards().get(1).getValue();
+        if ((valOne == 1 && valTwo == 10) || (valOne == 10 && valTwo == 1)) {
+            this.dealerBlackJack = true;
+        } else {
+            this.dealerBlackJack = false;
+        }
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

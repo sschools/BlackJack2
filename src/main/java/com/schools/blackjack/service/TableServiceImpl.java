@@ -71,6 +71,8 @@ public class TableServiceImpl implements TableService {
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));
         dealer.setHand(dealerHand);
 
+        table.setDealerBlackJack(dealerHand);  //test for dealer black jack
+
         int currentLoc = shoe.getIndex();
         currentLoc += 2*(i+1);
         shoe.setIndex(currentLoc);
