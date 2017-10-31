@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Blackjack Table</title>
+    <link href="/styles.css" rel="stylesheet"/>
 </head>
 <body>
 <h1>Table #1</h1>
-<div>
+<div class="hand-view">
     <h5>Dealer:</h5>
     <p>
         <span th:each="card : ${table.getDealer().getHand().getCards()}">
@@ -14,14 +15,15 @@
         </span>
     </p>
 </div>
-<div th:each="player : ${table.getPlayers()}">
+<div class="hand-view" th:each="player : ${table.getPlayers()}">
     <h5 th:text="${player.getName()} + ':'"></h5>
     <div th:each="hand : ${player.getHands()}">
-        <h6>Cards:</h6>
         <p>
             <span th:each="card : ${hand.getCards()}">
                 <span th:text="${card.getAbName()} "></span>
             </span>
+            <span style="color:indigo;padding-left: 10px">Total: </span>
+            <span th:text="${hand.getTotal()}"></span>
         </p>
     </div>
 </div>

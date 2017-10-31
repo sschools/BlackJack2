@@ -1,0 +1,22 @@
+body {
+    background-color: darkgreen;
+}
+
+h1, h5 {
+    color: floralwhite;
+}
+
+h5 {
+    margin: 5px 0;
+}
+
+span {
+    color: powderblue;
+}
+
+.hand-view {
+    border: solid black;
+    padding: 10px;
+    margin:5px;
+}
+

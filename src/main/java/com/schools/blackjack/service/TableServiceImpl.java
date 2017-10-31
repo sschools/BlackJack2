@@ -44,8 +44,16 @@ public class TableServiceImpl implements TableService {
             Hand currentHand = players.get(j).getHands().get(0);
             List<Card> cards = new ArrayList<>();
             currentHand.setCards(cards);
-            currentHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + j));
-            currentHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + j + i + 1));
+            currentHand.setAce(false);
+            Card first = shoe.getShoeCards().get(shoe.getIndex() + j);
+            Card second = shoe.getShoeCards().get(shoe.getIndex() + j + i + 1);
+            currentHand.getCards().add(first);
+            currentHand.getCards().add(second);
+            if (first.getName().equals("A") || second.getName().equals("A")) {
+                currentHand.setAce(true);
+            }
+            currentHand.setTotal(first.getValue() + second.getValue());
+            //if statement here to adjust total for ace ... maybe
             List<Hand> hands = new ArrayList<>();
             hands.add(currentHand);
             players.get(j).setHands(hands);
