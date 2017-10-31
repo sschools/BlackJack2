@@ -16,7 +16,11 @@
     </p>
 </div>
 <div class="hand-view" th:each="player : ${table.getPlayers()}">
-    <h5 th:text="${player.getName()} + ':'"></h5>
+    <h5 th:text="${player.getName()}"></h5>
+    <p>
+        <span th:text="' Bets: ' + ${player.getBets()} "></span>
+        <span th:text=" 'Bankroll: ' + ${player.getBankroll()}"></span>
+    </p>
     <div th:each="hand : ${player.getHands()}">
         <p>
             <span th:each="card : ${hand.getCards()}">

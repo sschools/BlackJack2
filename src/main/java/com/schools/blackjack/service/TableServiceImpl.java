@@ -15,8 +15,12 @@ public class TableServiceImpl implements TableService {
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
             Player temp = new Player();
+            temp.setBets(new ArrayList<>());
+            temp.setBankroll(new ArrayList<>());
             int pNum = i + 1;
             temp.setName("Player #" + Integer.toString(pNum));
+            temp.getBets().add(2);
+            temp.getBankroll().add(1000);
             players.add(temp);
         }
         cardTable.setPlayers(players);

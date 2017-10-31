@@ -5,6 +5,8 @@ import java.util.List;
 public class Player {
     private String name;
     private List<Hand> hands;
+    private List<Integer> bets;
+    private List<Integer> bankroll;
     private boolean canHit;
     private boolean canStand;
     private boolean canDouble;
@@ -27,6 +29,22 @@ public class Player {
 
     public void setHands(List<Hand> hands) {
         this.hands = hands;
+    }
+
+    public List<Integer> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Integer> bets) {
+        this.bets = bets;
+    }
+
+    public List<Integer> getBankroll() {
+        return bankroll;
+    }
+
+    public void setBankroll(List<Integer> bankroll) {
+        this.bankroll = bankroll;
     }
 
     public boolean isCanHit() {
