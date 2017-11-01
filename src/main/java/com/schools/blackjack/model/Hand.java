@@ -6,7 +6,6 @@ public class Hand {
     private int total;
     private List<Card> cards;
     private boolean ace;
-    private boolean blackJack;
 
     public Hand() {
     }
@@ -35,11 +34,17 @@ public class Hand {
         this.ace = ace;
     }
 
-    public boolean isBlackJack() {
-        return blackJack;
-    }
-
-    public void setBlackJack(boolean blackJack) {
-        this.blackJack = blackJack;
+    public boolean blackJack() {
+        boolean temp;
+        int first = 0;
+        int second = 0;
+        first = this.cards.get(0).getValue();
+        second = this.cards.get(1).getValue();
+        if ((first == 1 && second == 10) || (second == 1 && first == 10)) {
+            temp = true;
+        } else {
+            temp = false;
+        }
+        return temp;
     }
 }
