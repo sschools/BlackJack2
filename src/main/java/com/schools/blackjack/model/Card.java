@@ -10,6 +10,10 @@ public class Card {
 
     }
 
+    public Card(int value) {
+        this.setValue(value);
+    }
+
     public int getValue() {
         return value;
     }
