@@ -6,6 +6,7 @@ public class Hand {
     private int total;
     private List<Card> cards;
     private boolean ace;
+    private int win;
 
     public Hand() {
     }
@@ -28,6 +29,14 @@ public class Hand {
 
     public boolean isAce() {
         return ace;
+    }
+
+    public int getWin() {
+        return win;
+    }
+
+    public void setWin(int win) {
+        this.win = win;
     }
 
     public void setAce(boolean ace) {
