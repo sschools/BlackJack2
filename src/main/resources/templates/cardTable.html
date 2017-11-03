@@ -28,10 +28,12 @@
             </span>
             <span style="color:indigo;padding-left: 10px">Total: </span>
             <span th:text="${hand.getTotal()}"></span>
-            <span th:if="${player.canHit}"><button>Hit</button></span>
-            <span th:if="${player.canStand}"><button>Stand</button></span>
-            <span th:if="${player.canDouble}"><button>Double</button></span>
-            <span th:if="${player.canSplit}"><button>Split</button></span>
+            <form action="/cardTable.html" method="post">
+                <span th:if="${player.canHit}"><button name="actionButton" type="submit" value="hit">Hit</button></span>
+                <span th:if="${player.canStand}"><button name="actionButton" type="submit" value="stand">Stand</button></span>
+                <span th:if="${player.canDouble}"><button name="actionButton" type="submit" value="double">Double</button></span>
+                <span th:if="${player.canSplit}"><button name="actionButton" type="submit" value="split">Split</button></span>
+            </form>
         </p>
     </div>
 </div>

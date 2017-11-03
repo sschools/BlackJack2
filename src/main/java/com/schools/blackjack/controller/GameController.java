@@ -40,4 +40,10 @@ public class GameController {
         cardTable = tempTable;
         return "redirect:/cardTable";
     }
+
+    @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
+    public String buttonClicked(@RequestParam(value = "actionButton") String action) {
+        System.out.println("Action from button: " + action);
+        return null;
+    }
 }
