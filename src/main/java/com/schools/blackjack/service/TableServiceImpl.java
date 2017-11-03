@@ -72,7 +72,7 @@ public class TableServiceImpl implements TableService {
         dealer.setHand(dealerHand);
 
         if (dealerHand.blackJack()) {
-            //method here to end hand
+            table.dealerHasBlackJack();
         }
 
         int currentLoc = shoe.getIndex();
