@@ -28,6 +28,10 @@
             </span>
             <span style="color:indigo;padding-left: 10px">Total: </span>
             <span th:text="${hand.getTotal()}"></span>
+            <span th:if="${player.canHit}"><button>Hit</button></span>
+            <span th:if="${player.canStand}"><button>Stand</button></span>
+            <span th:if="${player.canDouble}"><button>Double</button></span>
+            <span th:if="${player.canSplit}"><button>Split</button></span>
         </p>
     </div>
 </div>

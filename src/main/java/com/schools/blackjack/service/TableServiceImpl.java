@@ -21,6 +21,10 @@ public class TableServiceImpl implements TableService {
             temp.setName("Player #" + Integer.toString(pNum));
             temp.getBets().add(2);
             temp.getBankroll().add(1000);
+            temp.setCanHit(false);
+            temp.setCanStand(false);
+            temp.setCanDouble(false);
+            temp.setCanSplit(false);
             players.add(temp);
         }
         cardTable.setPlayers(players);
@@ -43,6 +47,7 @@ public class TableServiceImpl implements TableService {
             hands.add(hand);
             player.setHands(hands);
         }
+        // deals cards to players at table
         int i = table.getPlayers().size();
         for (int j = 0; j < i; j++) {
             Hand currentHand = players.get(j).getHands().get(0);
@@ -62,6 +67,8 @@ public class TableServiceImpl implements TableService {
             hands.add(currentHand);
             players.get(j).setHands(hands);
         }
+
+        //deals dealers cards
         Hand hand = new Hand();
         dealer.setHand(hand);
         Hand dealerHand = dealer.getHand();
@@ -71,10 +78,7 @@ public class TableServiceImpl implements TableService {
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));
         dealer.setHand(dealerHand);
 
-        if (dealerHand.blackJack()) {
-            table.dealerHasBlackJack();
-        }
-
+        //moves location in shoe
         int currentLoc = shoe.getIndex();
         currentLoc += 2*(i+1);
         shoe.setIndex(currentLoc);
@@ -82,6 +86,13 @@ public class TableServiceImpl implements TableService {
         table.setDealer(dealer);
         table.setPlayers(players);
         table.setShoe(shoe);
+
+        //handles dealer having blackjack
+        if (dealerHand.blackJack()) {
+            table.dealerHasBlackJack();
+        } else {
+            table.getPlayers().get(0).setButtons();
+        }
 
         return table;
     }

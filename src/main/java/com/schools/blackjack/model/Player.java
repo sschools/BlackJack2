@@ -78,5 +78,20 @@ public class Player {
     public void setCanSplit(boolean canSplit) {
         this.canSplit = canSplit;
     }
+
+    public void setButtons() {
+        this.setCanHit(true);
+        this.setCanStand(true);
+        if (this.getHands().get(0).getCards().size() == 2) {
+            this.setCanDouble(true);
+        } else {
+            this.setCanDouble(false);
+        }
+        if (this.getHands().get(0).getCards().get(0).getValue() == this.getHands().get(0).getCards().get(1).getValue()) {
+            this.setCanSplit(true);
+        } else {
+            this.setCanSplit(false);
+        }
+    }
 }
 
