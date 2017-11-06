@@ -108,6 +108,9 @@ public class CardTable {
                 if (hand.isBust()) {
                     hand.setWin(-1);
                     hand.setMessage("Lose");
+                } else if (hand.getTotal() == 21 && hand.getCards().size() == 2) {
+                    hand.setWin(1.5);
+                    hand.setMessage("BlackJack!!");
                 } else if (this.getDealer().getHand().isBust()) {
                     hand.setWin(1);
                     hand.setMessage("Winner!");

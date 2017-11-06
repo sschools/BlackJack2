@@ -80,6 +80,7 @@ public class Player {
     }
 
     public void setButtons() {
+        //make contigent on not having blackjack
         this.setCanHit(true);
         this.setCanStand(true);
         if (this.getHands().get(0).getCards().size() == 2) {

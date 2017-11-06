@@ -7,7 +7,7 @@ public class Hand {
     private List<Card> cards;
     private boolean ace;
     private boolean bust;
-    private int win;
+    private double win;
     private String message;
 
     public Hand() {
@@ -39,11 +39,11 @@ public class Hand {
         return ace;
     }
 
-    public int getWin() {
+    public double getWin() {
         return win;
     }
 
-    public void setWin(int win) {
+    public void setWin(double win) {
         this.win = win;
     }
 
