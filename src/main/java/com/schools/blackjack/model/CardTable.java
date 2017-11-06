@@ -96,14 +96,28 @@ public class CardTable {
         String name = this.getDealer().getHand().getCards().get(1).getName();
         String suit = this.getDealer().getHand().getCards().get(1).getSuit();
         this.getDealer().getHand().getCards().get(1).setAbName(name + suit.substring(0,1));
+        Hand hand = this.getDealer().getHand();
+        hand.setTotal();
+        while (hand.getTotal() < 17) {
+            Hand hitHand = this.hit(hand);
+            hand = hitHand;
+            hand.setTotal();
+        }
+        this.getDealer().setHand(hand);
     }
 
-    public void hit() {
+    public Hand hit(Hand hand) {
         Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
         // this gets first hand, will need to adjust for multiple hands after a split
-        this.getPlayers().get(getCurrentPlayer()).getHands().get(0).getCards().add(next);
-        this.getPlayers().get(getCurrentPlayer()).getHands().get(0).setTotal();
+
+        Hand current = hand;
+        current.getCards().add(next);
+        current.setTotal();
+        if (current.getTotal() > 21) {
+            current.setBust(true);
+        }
         this.getShoe().setIndex(this.getShoe().getIndex() + 1);
+        return current;
     }
 
     public void stand() {

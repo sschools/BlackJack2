@@ -11,7 +11,7 @@
     <h5>Dealer:</h5>
     <p>
         <span th:each="card : ${table.getDealer().getHand().getCards()}">
-            <span style="border: solid black 1px; padding: 5px 2px; background-color: floralwhite; border-radius: 2px; color: black" th:text="${card.getAbName()} "></span>
+            <span style="border: solid black 1px; padding: 5px 2px; background-color: floralwhite; border-radius: 4px; color: black" th:text="${card.getAbName()} "></span>
         </span>
     </p>
 </div>
@@ -24,10 +24,15 @@
     <div th:each="hand : ${player.getHands()}">
         <p>
             <span th:each="card : ${hand.getCards()}">
-                <span style="border: solid black 1px; padding: 5px 2px; background-color: floralwhite; border-radius: 2px; color: black" th:text="${card.getAbName()} "></span>
+                <span style="border: solid black 1px; padding: 5px 2px; background-color: floralwhite; border-radius: 4px; color: black" th:text="${card.getAbName()} "></span>
             </span>
-            <span style="color:indigo;padding-left: 10px">Total: </span>
-            <span th:text="${hand.getTotal()}"></span>
+            <span th:if="${hand.bust}">
+                <span>Busted!</span>
+            </span>
+            <span th:unless="${hand.bust}">
+                <span style="color:indigo;padding-left: 10px">Total: </span>
+                <span th:text="${hand.getTotal()}"></span>
+            </span>
             <form action="/cardTable.html" method="post">
                 <span th:if="${player.canHit}"><button name="actionButton" type="submit" value="hit">Hit</button></span>
                 <span th:if="${player.canStand}"><button name="actionButton" type="submit" value="stand">Stand</button></span>

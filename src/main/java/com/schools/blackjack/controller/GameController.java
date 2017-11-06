@@ -1,6 +1,7 @@
 package com.schools.blackjack.controller;
 
 import com.schools.blackjack.model.CardTable;
+import com.schools.blackjack.model.Hand;
 import com.schools.blackjack.service.ShoeService;
 import com.schools.blackjack.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class GameController {
@@ -44,7 +48,11 @@ public class GameController {
     @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
         if (action.equals("hit")) {
-            cardTable.hit();
+            Hand hand = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(0);
+            Hand hitHand = cardTable.hit(hand);
+            List<Hand> hands = new ArrayList<>();
+            hands.add(hitHand);
+            cardTable.getPlayers().get(cardTable.getCurrentPlayer()).setHands(hands);
         } else if (action.equals("stand")) {
             cardTable.stand();
         }

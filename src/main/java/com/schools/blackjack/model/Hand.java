@@ -6,6 +6,7 @@ public class Hand {
     private int total;
     private List<Card> cards;
     private boolean ace;
+    private boolean bust;
     private int win;
 
     public Hand() {
@@ -47,6 +48,14 @@ public class Hand {
 
     public void setAce(boolean ace) {
         this.ace = ace;
+    }
+
+    public boolean isBust() {
+        return bust;
+    }
+
+    public void setBust(boolean bust) {
+        this.bust = bust;
     }
 
     public boolean blackJack() {
