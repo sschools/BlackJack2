@@ -96,6 +96,7 @@ public class CardTable {
         Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
         // this gets first hand, will need to adjust for multiple hands after a split
         this.getPlayers().get(getCurrentPlayer()).getHands().get(0).getCards().add(next);
+        this.getPlayers().get(getCurrentPlayer()).getHands().get(0).setTotal();
         this.getShoe().setIndex(this.getShoe().getIndex() + 1);
     }
 }

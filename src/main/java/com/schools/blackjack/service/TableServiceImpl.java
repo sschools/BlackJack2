@@ -61,7 +61,7 @@ public class TableServiceImpl implements TableService {
             if (first.getName().equals("A") || second.getName().equals("A")) {
                 currentHand.setAce(true);
             }
-            currentHand.setTotal(first.getValue() + second.getValue());
+            currentHand.setTotal();
             //if statement here to adjust total for ace ... maybe
             List<Hand> hands = new ArrayList<>();
             hands.add(currentHand);

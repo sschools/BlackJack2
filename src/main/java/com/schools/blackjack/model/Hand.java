@@ -15,8 +15,11 @@ public class Hand {
         return total;
     }
 
-    public void setTotal(int total) {
-            this.total = total;
+    public void setTotal() {
+            this.total = 0;
+            for(Card card: this.getCards()) {
+                this.total += card.getValue();
+            }
         }
 
     public List<Card> getCards() {
