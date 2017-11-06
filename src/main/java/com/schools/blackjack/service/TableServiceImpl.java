@@ -92,6 +92,7 @@ public class TableServiceImpl implements TableService {
             table.dealerHasBlackJack();
         } else {
             table.getPlayers().get(0).setButtons();
+            table.setCurrentPlayer(0);
         }
 
         return table;

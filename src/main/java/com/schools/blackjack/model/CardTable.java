@@ -10,6 +10,7 @@ public class CardTable {
     private List<Player> players;
     private Dealer dealer;
     private String message;
+    private int currentPlayer;
 
     public CardTable() {
     }
@@ -56,6 +57,14 @@ public class CardTable {
         this.message = message;
     }
 
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public void dealerHasBlackJack() {
         for (Player player : this.players) {
             if (player.getHands().get(0).blackJack()) {
@@ -81,5 +90,12 @@ public class CardTable {
                 player.setBankroll(newBank);
             }
         }
+    }
+
+    public void hit() {
+        Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
+        // this gets first hand, will need to adjust for multiple hands after a split
+        this.getPlayers().get(getCurrentPlayer()).getHands().get(0).getCards().add(next);
+        this.getShoe().setIndex(this.getShoe().getIndex() + 1);
     }
 }

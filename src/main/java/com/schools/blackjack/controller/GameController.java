@@ -43,7 +43,9 @@ public class GameController {
 
     @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
-        System.out.println("Action from button: " + action);
-        return null;
+        if (action.equals("hit")) {
+            cardTable.hit();
+        }
+        return "redirect:/cardTable";
     }
 }
