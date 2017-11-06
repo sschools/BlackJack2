@@ -45,6 +45,8 @@ public class GameController {
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
         if (action.equals("hit")) {
             cardTable.hit();
+        } else if (action.equals("stand")) {
+            cardTable.stand();
         }
         return "redirect:/cardTable";
     }

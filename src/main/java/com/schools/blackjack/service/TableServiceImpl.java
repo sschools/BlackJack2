@@ -76,6 +76,7 @@ public class TableServiceImpl implements TableService {
         dealerHand.setCards(cards1);
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i));
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));
+        dealerHand.getCards().get(1).setAbName("**");
         dealer.setHand(dealerHand);
 
         //moves location in shoe

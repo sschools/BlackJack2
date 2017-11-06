@@ -92,11 +92,27 @@ public class CardTable {
         }
     }
 
+    public void playDealer() {
+        String name = this.getDealer().getHand().getCards().get(1).getName();
+        String suit = this.getDealer().getHand().getCards().get(1).getSuit();
+        this.getDealer().getHand().getCards().get(1).setAbName(name + suit.substring(0,1));
+    }
+
     public void hit() {
         Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
         // this gets first hand, will need to adjust for multiple hands after a split
         this.getPlayers().get(getCurrentPlayer()).getHands().get(0).getCards().add(next);
         this.getPlayers().get(getCurrentPlayer()).getHands().get(0).setTotal();
         this.getShoe().setIndex(this.getShoe().getIndex() + 1);
+    }
+
+    public void stand() {
+        this.getPlayers().get(this.getCurrentPlayer()).clearButtons();
+        if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
+            this.playDealer();
+        } else {
+            this.setCurrentPlayer(this.getCurrentPlayer() + 1);
+            this.getPlayers().get(this.getCurrentPlayer()).setButtons();
+        }
     }
 }

@@ -93,5 +93,12 @@ public class Player {
             this.setCanSplit(false);
         }
     }
+
+    public void clearButtons() {
+        this.setCanHit(false);
+        this.setCanStand(false);
+        this.setCanDouble(false);
+        this.setCanSplit(false);
+    }
 }
 

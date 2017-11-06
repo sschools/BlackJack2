@@ -16,11 +16,14 @@ public class Hand {
     }
 
     public void setTotal() {
-            this.total = 0;
-            for(Card card: this.getCards()) {
-                this.total += card.getValue();
-            }
+        this.total = 0;
+        for(Card card: this.getCards()) {
+            this.total += card.getValue();
         }
+        if (this.ace && this.total < 12) {
+            this.total += 10;
+        }
+    }
 
     public List<Card> getCards() {
             return cards;
