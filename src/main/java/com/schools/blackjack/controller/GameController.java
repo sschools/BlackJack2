@@ -53,6 +53,9 @@ public class GameController {
             List<Hand> hands = new ArrayList<>();
             hands.add(hitHand);
             cardTable.getPlayers().get(cardTable.getCurrentPlayer()).setHands(hands);
+            if (hitHand.isBust() || hitHand.getTotal() == 21) {
+                cardTable.stand();
+            }
         } else if (action.equals("stand")) {
             cardTable.stand();
         }

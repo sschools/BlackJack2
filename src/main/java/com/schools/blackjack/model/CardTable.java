@@ -92,6 +92,25 @@ public class CardTable {
         }
     }
 
+    public void setWins() {
+        for (Player player : this.players) {
+            for (Hand hand : player.getHands()) {
+                if (hand.isBust()) {
+                    hand.setWin(-1);
+                } else if (this.getDealer().getHand().isBust()) {
+                    hand.setWin(1);
+                } else if (hand.getTotal() > this.getDealer().getHand().getTotal()) {
+                    hand.setWin(1);
+                } else if (hand.getTotal() == this.getDealer().getHand().getTotal()) {
+                    hand.setWin(0);
+                } else {
+                    hand.setWin(-1);
+                }
+            }
+        }
+        this.endHand();
+    }
+
     public void playDealer() {
         String name = this.getDealer().getHand().getCards().get(1).getName();
         String suit = this.getDealer().getHand().getCards().get(1).getSuit();
@@ -104,6 +123,7 @@ public class CardTable {
             hand.setTotal();
         }
         this.getDealer().setHand(hand);
+        this.setWins();
     }
 
     public Hand hit(Hand hand) {
