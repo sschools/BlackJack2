@@ -11,6 +11,7 @@ public class CardTable {
     private Dealer dealer;
     private String message;
     private int currentPlayer;
+    private boolean endRound;
 
     public CardTable() {
     }
@@ -65,6 +66,14 @@ public class CardTable {
         this.currentPlayer = currentPlayer;
     }
 
+    public boolean isEndRound() {
+        return endRound;
+    }
+
+    public void setEndRound(boolean endRound) {
+        this.endRound = endRound;
+    }
+
     public void dealerHasBlackJack() {
         for (Player player : this.players) {
             if (player.getHands().get(0).blackJack()) {
@@ -90,6 +99,7 @@ public class CardTable {
                 player.setBankroll(newBank);
             }
         }
+        this.setEndRound(true);
     }
 
     public void setWins() {
@@ -97,14 +107,19 @@ public class CardTable {
             for (Hand hand : player.getHands()) {
                 if (hand.isBust()) {
                     hand.setWin(-1);
+                    hand.setMessage("Lose");
                 } else if (this.getDealer().getHand().isBust()) {
                     hand.setWin(1);
+                    hand.setMessage("Winner!");
                 } else if (hand.getTotal() > this.getDealer().getHand().getTotal()) {
                     hand.setWin(1);
+                    hand.setMessage("Winner!");
                 } else if (hand.getTotal() == this.getDealer().getHand().getTotal()) {
                     hand.setWin(0);
+                    hand.setMessage("Push");
                 } else {
                     hand.setWin(-1);
+                    hand.setMessage("Lose");
                 }
             }
         }

@@ -8,6 +8,7 @@ public class Hand {
     private boolean ace;
     private boolean bust;
     private int win;
+    private String message;
 
     public Hand() {
     }
@@ -56,6 +57,14 @@ public class Hand {
 
     public void setBust(boolean bust) {
         this.bust = bust;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public boolean blackJack() {

@@ -61,4 +61,11 @@ public class GameController {
         }
         return "redirect:/cardTable";
     }
+
+    @RequestMapping(path = "/dealCards", method = RequestMethod.POST)
+    public String deal() {
+        CardTable tempTable = tableService.dealCards(cardTable);
+        cardTable = tempTable;
+        return "redirect:/cardTable";
+    }
 }

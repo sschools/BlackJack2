@@ -6,7 +6,13 @@
     <link href="/styles.css" rel="stylesheet"/>
 </head>
 <body>
-<h1>Table #1</h1>
+<span>
+    <h1>Table #1</h1>
+    <form action="/dealCards" method="post">
+        <button type="submit" th:if="${table.endRound}">Deal</button>
+    </form>
+</span>
+
 <div class="hand-view">
     <h5>Dealer:</h5>
     <p>
@@ -32,6 +38,7 @@
             <span th:unless="${hand.bust}">
                 <span style="color:indigo;padding-left: 10px">Total: </span>
                 <span th:text="${hand.getTotal()}"></span>
+                <span style="color:red" th:text="${hand.getMessage()}"></span>
             </span>
             <form action="/cardTable.html" method="post">
                 <span th:if="${player.canHit}"><button name="actionButton" type="submit" value="hit">Hit</button></span>

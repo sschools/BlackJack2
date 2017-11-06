@@ -38,6 +38,7 @@ public class TableServiceImpl implements TableService {
     }
 
     public CardTable dealCards(CardTable table) {
+        table.setEndRound(false);
         Shoe shoe = table.getShoe();
         Dealer dealer = table.getDealer();
         List<Player> players = table.getPlayers();
@@ -54,6 +55,7 @@ public class TableServiceImpl implements TableService {
             List<Card> cards = new ArrayList<>();
             currentHand.setCards(cards);
             currentHand.setAce(false);
+            currentHand.setMessage("");
             Card first = shoe.getShoeCards().get(shoe.getIndex() + j);
             Card second = shoe.getShoeCards().get(shoe.getIndex() + j + i + 1);
             currentHand.getCards().add(first);
