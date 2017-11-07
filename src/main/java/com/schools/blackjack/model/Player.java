@@ -95,12 +95,13 @@ public class Player {
         this.setCanStand(true);
         if (this.getHands().get(0).getCards().size() == 2) {
             this.setCanDouble(true);
+            if (this.getHands().get(0).getCards().get(0).getValue() == this.getHands().get(0).getCards().get(1).getValue()) {
+                this.setCanSplit(true);
+            } else {
+                this.setCanSplit(false);
+            }
         } else {
             this.setCanDouble(false);
-        }
-        if (this.getHands().get(0).getCards().get(0).getValue() == this.getHands().get(0).getCards().get(1).getValue()) {
-            this.setCanSplit(true);
-        } else {
             this.setCanSplit(false);
         }
     }

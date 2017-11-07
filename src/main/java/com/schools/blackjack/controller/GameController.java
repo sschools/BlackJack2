@@ -49,16 +49,19 @@ public class GameController {
     @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
         if (action.equals("hit") || action.equals("double")) {
-            Hand hand = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getCurrentHand());
+            int currentPlayerNum = cardTable.getCurrentPlayer();
+            int currentHandNum = cardTable.getPlayers().get(currentPlayerNum).getCurrentHand();
+            Hand hand = cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
             Hand hitHand = cardTable.hit(hand);
-            List<Hand> hands = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands();
+            List<Hand> hands = cardTable.getPlayers().get(currentPlayerNum).getHands();
             if (action.equals("double")) {
                 hitHand.setDoubleDown(true);
                 hitHand.setMessage(hitHand.getMessage() + "Double Down");
             }
-            hands.remove(cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getCurrentHand()));
+            hands.remove(cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
             hands.add(hitHand);
-            cardTable.getPlayers().get(cardTable.getCurrentPlayer()).setHands(hands);
+            cardTable.getPlayers().get(currentPlayerNum).setHands(hands);
+            cardTable.getPlayers().get(currentPlayerNum).setButtons();
             if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
                 cardTable.stand();
             }
