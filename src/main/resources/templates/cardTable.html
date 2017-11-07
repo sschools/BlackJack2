@@ -8,6 +8,7 @@
 <body>
 <span>
     <h1>Table #1</h1>
+    <span th:text="${table.getMessage()}"></span>
     <form action="/dealCards" method="post">
         <button type="submit" th:if="${table.endRound}">Deal</button>
     </form>

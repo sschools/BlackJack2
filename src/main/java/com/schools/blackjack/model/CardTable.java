@@ -75,6 +75,9 @@ public class CardTable {
     }
 
     public void dealerHasBlackJack() {
+        String name = this.getDealer().getHand().getCards().get(1).getName();
+        String suit = this.getDealer().getHand().getCards().get(1).getSuit();
+        this.getDealer().getHand().getCards().get(1).setAbName(name + suit.substring(0,1));
         for (Player player : this.players) {
             if (player.getHands().get(0).blackJack()) {
                 player.getHands().get(0).setWin(0);
@@ -82,6 +85,7 @@ public class CardTable {
                 player.getHands().get(0).setWin(-1);
             }
         }
+        this.setMessage("Dealer Has Black Jack");
         this.endHand();
     }
 
@@ -152,6 +156,9 @@ public class CardTable {
         // this gets first hand, will need to adjust for multiple hands after a split
 
         Hand current = hand;
+        if (next.getValue() == 1) {
+            current.setAce(true);
+        }
         current.getCards().add(next);
         current.setTotal();
         if (current.getTotal() > 21) {

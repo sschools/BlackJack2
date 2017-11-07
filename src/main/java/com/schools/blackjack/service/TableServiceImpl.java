@@ -39,6 +39,7 @@ public class TableServiceImpl implements TableService {
 
     public CardTable dealCards(CardTable table) {
         table.setEndRound(false);
+        table.setMessage("");
         Shoe shoe = table.getShoe();
         Dealer dealer = table.getDealer();
         List<Player> players = table.getPlayers();
