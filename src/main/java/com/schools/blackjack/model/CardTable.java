@@ -107,22 +107,25 @@ public class CardTable {
             for (Hand hand : player.getHands()) {
                 if (hand.isBust()) {
                     hand.setWin(-1);
-                    hand.setMessage("Lose");
+                    hand.setMessage(hand.getMessage() + " Lose");
                 } else if (hand.getTotal() == 21 && hand.getCards().size() == 2) {
                     hand.setWin(1.5);
                     hand.setMessage("BlackJack!!");
                 } else if (this.getDealer().getHand().isBust()) {
                     hand.setWin(1);
-                    hand.setMessage("Winner!");
+                    hand.setMessage(hand.getMessage() + " Winner!");
                 } else if (hand.getTotal() > this.getDealer().getHand().getTotal()) {
                     hand.setWin(1);
-                    hand.setMessage("Winner!");
+                    hand.setMessage(hand.getMessage() + " Winner!");
                 } else if (hand.getTotal() == this.getDealer().getHand().getTotal()) {
                     hand.setWin(0);
-                    hand.setMessage("Push");
+                    hand.setMessage(hand.getMessage() + " Push");
                 } else {
                     hand.setWin(-1);
-                    hand.setMessage("Lose");
+                    hand.setMessage(hand.getMessage() + " Lose");
+                }
+                if (hand.isDoubleDown()) {
+                    hand.setWin(hand.getWin() * 2);
                 }
             }
         }

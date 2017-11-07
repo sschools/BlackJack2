@@ -27,6 +27,11 @@ public class ShoeServiceImpl implements ShoeService{
                     temp.setValue(k);
                     temp.setName(Integer.toString(k));
                     temp.setSuit(suits.get(j));
+                    if (j % 2 == 0) {
+                        temp.setColor("red");
+                    } else {
+                        temp.setColor("black");
+                    }
                     temp.setAbName(temp.getName() + temp.getSuit().substring(0,1));
                     shoe.getShoeCards().add(temp);
                 }

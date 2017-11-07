@@ -9,6 +9,7 @@ public class Hand {
     private boolean bust;
     private double win;
     private String message;
+    private boolean doubleDown;
 
     public Hand() {
     }
@@ -65,6 +66,14 @@ public class Hand {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isDoubleDown() {
+        return doubleDown;
+    }
+
+    public void setDoubleDown(boolean doubleDown) {
+        this.doubleDown = doubleDown;
     }
 
     public boolean blackJack() {

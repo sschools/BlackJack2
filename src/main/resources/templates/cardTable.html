@@ -17,7 +17,7 @@
     <h5>Dealer:</h5>
     <p>
         <span th:each="card : ${table.getDealer().getHand().getCards()}">
-            <span style="border: solid black 1px; padding: 5px 2px; background-color: floralwhite; border-radius: 4px; color: black" th:text="${card.getAbName()} "></span>
+            <span style="border: solid black 1px; padding: 5px 2px; background-color: floralwhite; border-radius: 4px; color:black;" th:text="${card.getAbName()} "></span>
         </span>
     </p>
 </div>

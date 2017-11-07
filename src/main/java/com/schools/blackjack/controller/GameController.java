@@ -47,13 +47,17 @@ public class GameController {
 
     @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
-        if (action.equals("hit")) {
+        if (action.equals("hit") || action.equals("double")) {
             Hand hand = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(0);
             Hand hitHand = cardTable.hit(hand);
             List<Hand> hands = new ArrayList<>();
+            if (action.equals("double")) {
+                hitHand.setDoubleDown(true);
+                hitHand.setMessage(hitHand.getMessage() + "Double Down");
+            }
             hands.add(hitHand);
             cardTable.getPlayers().get(cardTable.getCurrentPlayer()).setHands(hands);
-            if (hitHand.isBust() || hitHand.getTotal() == 21) {
+            if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
                 cardTable.stand();
             }
         } else if (action.equals("stand")) {
