@@ -8,7 +8,7 @@
 <body>
 <span>
     <h1>Table #1</h1>
-    <span th:text="${table.getMessage()}"></span>
+    <h2 th:text="${table.getMessage()}"></h2>
     <form action="/dealCards" method="post">
         <button type="submit" th:if="${table.endRound}">Deal</button>
     </form>
@@ -41,12 +41,15 @@
                 <span th:text="${hand.getTotal()}"></span>
                 <span style="color:red" th:text="${hand.getMessage()}"></span>
             </span>
-            <form action="/cardTable.html" method="post">
-                <span th:if="${player.canHit}"><button name="actionButton" type="submit" value="hit">Hit</button></span>
-                <span th:if="${player.canStand}"><button name="actionButton" type="submit" value="stand">Stand</button></span>
-                <span th:if="${player.canDouble}"><button name="actionButton" type="submit" value="double">Double</button></span>
-                <span th:if="${player.canSplit}"><button name="actionButton" type="submit" value="split">Split</button></span>
-            </form>
+            <div th:if="${hand.active}">
+                <form action="/cardTable.html" method="post">
+                    <span th:if="${player.canHit}"><button name="actionButton" type="submit" value="hit">Hit</button></span>
+                    <span th:if="${player.canStand}"><button name="actionButton" type="submit" value="stand">Stand</button></span>
+                    <span th:if="${player.canDouble}"><button name="actionButton" type="submit" value="double">Double</button></span>
+                    <span th:if="${player.canSplit}"><button name="actionButton" type="submit" value="split">Split</button></span>
+                 </form>
+            </div>
+
         </p>
     </div>
 </div>

@@ -2,6 +2,7 @@ package com.schools.blackjack.controller;
 
 import com.schools.blackjack.model.CardTable;
 import com.schools.blackjack.model.Hand;
+import com.schools.blackjack.model.Player;
 import com.schools.blackjack.service.ShoeService;
 import com.schools.blackjack.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +49,14 @@ public class GameController {
     @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
         if (action.equals("hit") || action.equals("double")) {
-            Hand hand = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(0);
+            Hand hand = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getCurrentHand());
             Hand hitHand = cardTable.hit(hand);
-            List<Hand> hands = new ArrayList<>();
+            List<Hand> hands = cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands();
             if (action.equals("double")) {
                 hitHand.setDoubleDown(true);
                 hitHand.setMessage(hitHand.getMessage() + "Double Down");
             }
+            hands.remove(cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getHands().get(cardTable.getPlayers().get(cardTable.getCurrentPlayer()).getCurrentHand()));
             hands.add(hitHand);
             cardTable.getPlayers().get(cardTable.getCurrentPlayer()).setHands(hands);
             if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
@@ -62,6 +64,9 @@ public class GameController {
             }
         } else if (action.equals("stand")) {
             cardTable.stand();
+        } else if (action.equals("split")) {
+            Player current = cardTable.getPlayers().get(cardTable.getCurrentPlayer());
+            current.split();
         }
         return "redirect:/cardTable";
     }

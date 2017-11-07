@@ -48,6 +48,7 @@ public class TableServiceImpl implements TableService {
             Hand hand = new Hand();
             hands.add(hand);
             player.setHands(hands);
+            player.setCurrentHand(0);
         }
         // deals cards to players at table
         int i = table.getPlayers().size();
@@ -57,6 +58,7 @@ public class TableServiceImpl implements TableService {
             currentHand.setCards(cards);
             currentHand.setAce(false);
             currentHand.setMessage("");
+            currentHand.setActive(false);
             Card first = shoe.getShoeCards().get(shoe.getIndex() + j);
             Card second = shoe.getShoeCards().get(shoe.getIndex() + j + i + 1);
             currentHand.getCards().add(first);
@@ -65,7 +67,6 @@ public class TableServiceImpl implements TableService {
                 currentHand.setAce(true);
             }
             currentHand.setTotal();
-            //if statement here to adjust total for ace ... maybe
             List<Hand> hands = new ArrayList<>();
             hands.add(currentHand);
             players.get(j).setHands(hands);
@@ -101,6 +102,7 @@ public class TableServiceImpl implements TableService {
         } else {
             table.getPlayers().get(0).setButtons();
             table.setCurrentPlayer(0);
+            table.getPlayers().get(table.getCurrentPlayer()).getHands().get(0).setActive(true);
         }
 
         return table;

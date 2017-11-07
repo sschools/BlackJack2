@@ -10,6 +10,7 @@ public class Hand {
     private double win;
     private String message;
     private boolean doubleDown;
+    private boolean active;
 
     public Hand() {
     }
@@ -74,6 +75,14 @@ public class Hand {
 
     public void setDoubleDown(boolean doubleDown) {
         this.doubleDown = doubleDown;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public boolean blackJack() {

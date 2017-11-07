@@ -1,5 +1,6 @@
 package com.schools.blackjack.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -11,6 +12,7 @@ public class Player {
     private boolean canStand;
     private boolean canDouble;
     private boolean canSplit;
+    private int currentHand;
 
     public Player() {
     }
@@ -79,6 +81,14 @@ public class Player {
         this.canSplit = canSplit;
     }
 
+    public int getCurrentHand() {
+        return currentHand;
+    }
+
+    public void setCurrentHand(int currentHand) {
+        this.currentHand = currentHand;
+    }
+
     public void setButtons() {
         //make contigent on not having blackjack
         this.setCanHit(true);
@@ -100,6 +110,17 @@ public class Player {
         this.setCanStand(false);
         this.setCanDouble(false);
         this.setCanSplit(false);
+    }
+
+    public void split() {
+        Hand newHand = new Hand();
+        List<Card> cards = new ArrayList<>();
+        newHand.setCards(cards);
+        newHand.getCards().add(this.getHands().get(getCurrentHand()).getCards().get(1));
+        this.getHands().get(getCurrentHand()).getCards().remove(1);
+        this.getHands().get(getCurrentHand()).setTotal();
+        newHand.setTotal();
+        this.getHands().add(newHand);
     }
 }
 

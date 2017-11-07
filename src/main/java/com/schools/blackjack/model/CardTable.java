@@ -174,6 +174,8 @@ public class CardTable {
             this.playDealer();
         } else {
             this.setCurrentPlayer(this.getCurrentPlayer() + 1);
+            this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
+            this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setActive(true);
             this.getPlayers().get(this.getCurrentPlayer()).setButtons();
         }
     }
