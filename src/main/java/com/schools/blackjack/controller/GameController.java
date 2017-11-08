@@ -59,7 +59,7 @@ public class GameController {
                 hitHand.setMessage(hitHand.getMessage() + "Double Down");
             }
             hands.remove(cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
-            hands.add(hitHand);
+            hands.add( currentHandNum, hitHand);
             cardTable.getPlayers().get(currentPlayerNum).setHands(hands);
             cardTable.getPlayers().get(currentPlayerNum).setButtons();
             if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {

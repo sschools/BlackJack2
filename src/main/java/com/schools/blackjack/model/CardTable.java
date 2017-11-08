@@ -169,8 +169,15 @@ public class CardTable {
     }
 
     public void stand() {
-        this.getPlayers().get(this.getCurrentPlayer()).clearButtons();
-        if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
+        int currentP = this.getCurrentPlayer();
+        int currentH = this.getPlayers().get(currentP).getCurrentHand();
+        this.getPlayers().get(currentP).clearButtons();
+        if (currentH < this.getPlayers().get(currentP).getHands().size() - 1) {
+            this.getPlayers().get(currentP).getHands().get(currentH).setActive(false); //this is for the thymeleaf to move the buttons
+            this.getPlayers().get(currentP).setCurrentHand(currentH + 1);              //after a stand on a split hand
+            this.getPlayers().get(currentP).getHands().get(currentH +1).setActive(true);
+            this.getPlayers().get(this.getCurrentPlayer()).setButtons();
+        } else if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
             this.playDealer();
         } else {
             this.setCurrentPlayer(this.getCurrentPlayer() + 1);
