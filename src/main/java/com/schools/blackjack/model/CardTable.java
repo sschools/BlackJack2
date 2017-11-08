@@ -127,7 +127,7 @@ public class CardTable {
                 if (hand.isBust()) {
                     hand.setWin(-1);
                     hand.setMessage(hand.getMessage() + " Lose");
-                } else if (hand.getTotal() == 21 && hand.getCards().size() == 2) {
+                } else if (hand.getTotal() == 21 && hand.getCards().size() == 2 && !player.isSplitHands()) {
                     hand.setWin(1.5);
                     hand.setMessage("BlackJack!!");
                 } else if (this.getDealer().getHand().isBust()) {
@@ -195,10 +195,17 @@ public class CardTable {
         } else if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
             this.playDealer();
         } else {
+            currentP += 1;
             this.setCurrentPlayer(this.getCurrentPlayer() + 1);
             this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
             this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setActive(true);
             this.getPlayers().get(this.getCurrentPlayer()).setButtons();
+            this.getPlayers().get(this.getCurrentPlayer()).setSplitHands(false);
+            this.getPlayers().get(currentP).getHands().get(0).setTotal();
+            if (this.getPlayers().get(currentP).getHands().get(0).getTotal() == 21) {
+                this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
+                this.stand();
+            }
         }
     }
 }

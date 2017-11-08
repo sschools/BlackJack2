@@ -69,6 +69,7 @@ public class GameController {
             cardTable.stand();
         } else if (action.equals("split")) {
             Player current = cardTable.getPlayers().get(cardTable.getCurrentPlayer());
+            current.setSplitHands(true);
             current.split();
         }
         return "redirect:/cardTable";

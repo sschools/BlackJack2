@@ -103,6 +103,11 @@ public class TableServiceImpl implements TableService {
             table.getPlayers().get(0).setButtons();
             table.setCurrentPlayer(0);
             table.getPlayers().get(table.getCurrentPlayer()).getHands().get(0).setActive(true);
+            table.getPlayers().get(table.getCurrentPlayer()).getHands().get(0).setTotal();
+            if (table.getPlayers().get(table.getCurrentPlayer()).getHands().get(0).getTotal() == 21) {
+                table.getPlayers().get(table.getCurrentPlayer()).getHands().get(0).setMessage("BlackJack!!!");
+                table.stand();
+            }
         }
 
         return table;

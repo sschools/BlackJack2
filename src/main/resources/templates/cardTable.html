@@ -40,7 +40,7 @@
                 <span>Busted!</span>
             </span>
             <span th:unless="${hand.bust}">
-                <span style="color:indigo;padding-left: 10px">Total: </span>
+                <span style="color: aliceblue;padding-left: 10px">Total: </span>
                 <span th:text="${hand.getTotal()}"></span>
                 <span style="color:red" th:text="${hand.getMessage()}"></span>
             </span>
@@ -56,10 +56,12 @@
         </p>
     </div>
 </div>
-<div>
+
+<div style="visibility: hidden">
     <span th:each="card : ${table.getShoe().getShoeCards()}">
         <span th:text="${card.getAbName()}"></span>
     </span>
 </div>
+
 </body>
 </html>

@@ -12,6 +12,7 @@ public class Player {
     private boolean canStand;
     private boolean canDouble;
     private boolean canSplit;
+    private boolean splitHands;
     private int currentHand;
 
     public Player() {
@@ -81,6 +82,14 @@ public class Player {
         this.canSplit = canSplit;
     }
 
+    public boolean isSplitHands() {
+        return splitHands;
+    }
+
+    public void setSplitHands(boolean splitHands) {
+        this.splitHands = splitHands;
+    }
+
     public int getCurrentHand() {
         return currentHand;
     }
@@ -93,9 +102,9 @@ public class Player {
         //make contigent on not having blackjack
         this.setCanHit(true);
         this.setCanStand(true);
-        if (this.getHands().get(0).getCards().size() == 2) {
+        if (this.getHands().get(getCurrentHand()).getCards().size() == 2) {
             this.setCanDouble(true);
-            if (this.getHands().get(0).getCards().get(0).getValue() == this.getHands().get(0).getCards().get(1).getValue()) {
+            if (this.getHands().get(getCurrentHand()).getCards().get(0).getValue() == this.getHands().get(getCurrentHand()).getCards().get(1).getValue()) {
                 this.setCanSplit(true);
             } else {
                 this.setCanSplit(false);
@@ -120,8 +129,11 @@ public class Player {
         newHand.getCards().add(this.getHands().get(getCurrentHand()).getCards().get(1));
         this.getHands().get(getCurrentHand()).getCards().remove(1);
         this.getHands().get(getCurrentHand()).setTotal();
+        this.getHands().get(getCurrentHand()).setMessage("");
         newHand.setTotal();
+        newHand.setMessage("");
         this.getHands().add(newHand);
+        this.setButtons();
     }
 }
 
