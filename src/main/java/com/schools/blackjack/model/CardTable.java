@@ -12,6 +12,7 @@ public class CardTable {
     private String message;
     private int currentPlayer;
     private boolean endRound;
+    private boolean endShoe;
 
     public CardTable() {
     }
@@ -74,6 +75,14 @@ public class CardTable {
         this.endRound = endRound;
     }
 
+    public boolean isEndShoe() {
+        return endShoe;
+    }
+
+    public void setEndShoe(boolean endShoe) {
+        this.endShoe = endShoe;
+    }
+
     public void dealerHasBlackJack() {
         String name = this.getDealer().getHand().getCards().get(1).getName();
         String suit = this.getDealer().getHand().getCards().get(1).getSuit();
@@ -103,7 +112,13 @@ public class CardTable {
                 player.setBankroll(newBank);
             }
         }
-        this.setEndRound(true);
+        if (this.getShoe().getIndex() > this.getShoe().getYellow()) {
+            this.setEndShoe(true); //thymelead to show shuffle button
+            this.setMessage("End of Shoe. Click button to Shuffle.");
+        } else {
+            this.setEndRound(true); //this is for thymeleaf to show deal button
+        }
+
     }
 
     public void setWins() {

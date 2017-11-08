@@ -9,8 +9,11 @@
 <span>
     <h1>Table #1</h1>
     <h2 th:text="${table.getMessage()}"></h2>
-    <form action="/dealCards" method="post">
-        <button type="submit" th:if="${table.endRound}">Deal</button>
+    <form action="/dealCards" method="post" th:if="${table.endRound}">
+        <button type="submit">Deal</button>
+    </form>
+    <form action="/shuffleCards" method="post" th:if="${table.endShoe}">
+        <button type="submit">Shuffle</button>
     </form>
 </span>
 

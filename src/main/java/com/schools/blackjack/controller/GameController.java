@@ -80,4 +80,14 @@ public class GameController {
         cardTable = tempTable;
         return "redirect:/cardTable";
     }
+
+    @RequestMapping(path = "/shuffleCards", method = RequestMethod.POST)
+    public String shuffle() {
+        cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
+        CardTable tempTable = tableService.dealCards(cardTable);
+        cardTable = tempTable;
+        cardTable.setMessage("");
+        cardTable.setEndShoe(false);
+        return "redirect:/cardTable";
+    }
 }
