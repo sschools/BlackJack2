@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "shoe")
-public class ShoeStats {
+public class ShoeStat {
     private int id;
     private int numPlayers;
     private int numHands;
@@ -15,7 +15,7 @@ public class ShoeStats {
     private double maxBrDelta;
     private double minBrDelta;
 
-    public ShoeStats() {
+    public ShoeStat() {
     }
 
     @Id

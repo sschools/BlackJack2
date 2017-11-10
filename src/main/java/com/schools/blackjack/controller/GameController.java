@@ -41,6 +41,7 @@ public class GameController {
         cardTable = tableService.initializeTable(num);
         cardTable.setShoe(shoeService.loadShoe(cardTable.getShoe()));
         cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
+        cardTable.setStats();
         CardTable tempTable = tableService.dealCards(cardTable);
         cardTable = tempTable;
         return "redirect:/cardTable";
@@ -85,6 +86,7 @@ public class GameController {
     @RequestMapping(path = "/shuffleCards", method = RequestMethod.POST)
     public String shuffle() {
         cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
+        cardTable.setStats();
         CardTable tempTable = tableService.dealCards(cardTable);
         cardTable = tempTable;
         cardTable.setMessage("");

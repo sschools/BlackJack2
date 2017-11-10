@@ -13,6 +13,7 @@ public class CardTable {
     private int currentPlayer;
     private boolean endRound;
     private boolean endShoe;
+    private ShoeStat shoeStat;
 
     public CardTable() {
     }
@@ -81,6 +82,14 @@ public class CardTable {
 
     public void setEndShoe(boolean endShoe) {
         this.endShoe = endShoe;
+    }
+
+    public ShoeStat getShoeStat() {
+        return shoeStat;
+    }
+
+    public void setShoeStat(ShoeStat shoeStat) {
+        this.shoeStat = shoeStat;
     }
 
     public void dealerHasBlackJack() {
@@ -207,5 +216,18 @@ public class CardTable {
                 this.stand();
             }
         }
+    }
+
+    public void setStats() {
+        ShoeStat tempStat = new ShoeStat();
+        tempStat.setNumPlayers(this.getPlayers().size());
+        tempStat.setNumHands(0);
+        tempStat.setWinHands(0);
+        tempStat.setWinHands(0);
+        tempStat.setBetStrat(1);
+        tempStat.setAvBrDelta(0);
+        tempStat.setMaxBrDelta(0);
+        tempStat.setMinBrDelta(0);
+        this.setShoeStat(tempStat);
     }
 }
