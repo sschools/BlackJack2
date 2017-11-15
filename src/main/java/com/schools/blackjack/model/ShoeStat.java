@@ -1,6 +1,7 @@
 package com.schools.blackjack.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "shoe")

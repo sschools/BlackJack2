@@ -70,6 +70,7 @@ public class TableServiceImpl implements TableService {
             List<Hand> hands = new ArrayList<>();
             hands.add(currentHand);
             players.get(j).setHands(hands);
+            table.getShoeStat().setNumHands(table.getShoeStat().getNumHands() + 1);
         }
 
         //deals dealers cards

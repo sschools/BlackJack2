@@ -138,12 +138,15 @@ public class CardTable {
                     hand.setMessage(hand.getMessage() + " Lose");
                 } else if (hand.getTotal() == 21 && hand.getCards().size() == 2 && !player.isSplitHands()) {
                     hand.setWin(1.5);
+                    this.getShoeStat().setWinHands(this.getShoeStat().getWinHands() + 1);
                     hand.setMessage("BlackJack!!");
                 } else if (this.getDealer().getHand().isBust()) {
                     hand.setWin(1);
+                    this.getShoeStat().setWinHands(this.getShoeStat().getWinHands() + 1);
                     hand.setMessage(hand.getMessage() + " Winner!");
                 } else if (hand.getTotal() > this.getDealer().getHand().getTotal()) {
                     hand.setWin(1);
+                    this.getShoeStat().setWinHands(this.getShoeStat().getWinHands() + 1);
                     hand.setMessage(hand.getMessage() + " Winner!");
                 } else if (hand.getTotal() == this.getDealer().getHand().getTotal()) {
                     hand.setWin(0);
@@ -157,6 +160,8 @@ public class CardTable {
                 }
             }
         }
+        System.out.println("Winning hands: " + this.getShoeStat().getWinHands());
+        System.out.println("Total hands: " + this.getShoeStat().getNumHands());
         this.endHand();
     }
 
@@ -229,5 +234,11 @@ public class CardTable {
         tempStat.setMaxBrDelta(0);
         tempStat.setMinBrDelta(0);
         this.setShoeStat(tempStat);
+        this.getShoe().initBankrolls = new ArrayList<>();
+
+        for (Player player : this.getPlayers()) {
+            this.getShoe().initBankrolls.add(player.getBankroll().get(0));
+        }
+
     }
 }

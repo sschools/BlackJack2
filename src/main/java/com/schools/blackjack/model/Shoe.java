@@ -4,9 +4,10 @@ import java.util.List;
 
 public class Shoe {
     private int numDecks;
-    int index;
+    private int index;
     private int yellow;
-    List<Card> shoeCards;
+    private List<Card> shoeCards;
+    public List<Integer> initBankrolls;
 
     public Shoe() {
 
