@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Shoe Summary</title>
+</head>
+<body>
+    <h1>End of Shoe</h1>
+    <h3>Summary Statistics:</h3>
+    <p>Number of Hands: <span th:text="${table.getShoeStat().getNumHands()}"></span></p>
+    <p>Number of Winners: <span th:text="${table.getShoeStat().getWinHands()}"></span></p>
+    <p>Winning Percentage: <span th:text="${table.getShoeStat().getWinPercent()}"></span></p>
+    <p>Average Change in Bankroll: <span th:text="${table.getShoeStat().getAvBrDelta()}"></span></p>
+</body>
+</html>

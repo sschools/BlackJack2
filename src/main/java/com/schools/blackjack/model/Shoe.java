@@ -8,6 +8,7 @@ public class Shoe {
     private int yellow;
     private List<Card> shoeCards;
     public List<Integer> initBankrolls;
+    public List<Integer> endBankrolls;
 
     public Shoe() {
 

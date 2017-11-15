@@ -122,8 +122,34 @@ public class CardTable {
             }
         }
         if (this.getShoe().getIndex() > this.getShoe().getYellow()) {
-            this.setEndShoe(true); //thymelead to show shuffle button
-            this.setMessage("End of Shoe. Click button to Shuffle.");
+            this.setEndShoe(true); //thymeleaf to show shuffle button
+            this.getShoe().endBankrolls = new ArrayList<>();
+            for (Player player : this.getPlayers()) {
+                this.getShoe().endBankrolls.add(player.getBankroll().get(0));
+
+            }
+            int totalDiff = 0;
+            int max = 0;
+            int min = 0;
+            for (int i = 0; i < this.getPlayers().size(); i++) {
+                int tempDiff = this.getShoe().endBankrolls.get(i) - this.getShoe().initBankrolls.get(i);
+                if (i == 0) {
+                    min = tempDiff;
+                    max = tempDiff;
+                } else {
+                    if (tempDiff > max) {
+                        max = tempDiff;
+                    }
+                    if (tempDiff < min) {
+                        min = tempDiff;
+                    }
+                }
+                totalDiff += tempDiff;
+            }
+            this.getShoeStat().setMinBrDelta(min);
+            this.getShoeStat().setMaxBrDelta(max);
+            this.getShoeStat().setAvBrDelta(totalDiff / this.getShoeStat().getNumPlayers());
+            this.getShoeStat().setWinPercent((this.getShoeStat().getWinHands() / this.getShoeStat().getNumHands()) * 100);
         } else {
             this.setEndRound(true); //this is for thymeleaf to show deal button
         }
@@ -235,10 +261,8 @@ public class CardTable {
         tempStat.setMinBrDelta(0);
         this.setShoeStat(tempStat);
         this.getShoe().initBankrolls = new ArrayList<>();
-
         for (Player player : this.getPlayers()) {
             this.getShoe().initBankrolls.add(player.getBankroll().get(0));
         }
-
     }
 }
