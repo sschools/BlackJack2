@@ -55,7 +55,6 @@ public class GameController {
 
     @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
-        String res = "";
         if (action.equals("hit") || action.equals("double")) {
             int currentPlayerNum = cardTable.getCurrentPlayer();
             int currentHandNum = cardTable.getPlayers().get(currentPlayerNum).getCurrentHand();
@@ -81,12 +80,7 @@ public class GameController {
             cardTable.getShoeStat().setNumHands(cardTable.getShoeStat().getNumHands() + 1);
             current.split();
         }
-        if (cardTable.isEndShoe()) {
-            res = "redirect:/shoeSummary";
-        } else {
-            res = "redirect:/cardTable";
-        }
-        return res;
+        return "redirect:/cardTable";
     }
 
     @RequestMapping(path = "/dealCards", method = RequestMethod.POST)
@@ -94,6 +88,11 @@ public class GameController {
         CardTable tempTable = tableService.dealCards(cardTable);
         cardTable = tempTable;
         return "redirect:/cardTable";
+    }
+
+    @RequestMapping(path = "/seeStats", method = RequestMethod.POST)
+    public String statPage() {
+        return "redirect:/shoeSummary";
     }
 
     @RequestMapping(path = "/shuffleCards", method = RequestMethod.POST)

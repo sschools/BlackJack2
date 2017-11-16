@@ -130,6 +130,9 @@ public class Player {
         this.getHands().get(getCurrentHand()).getCards().remove(1);
         this.getHands().get(getCurrentHand()).setTotal();
         this.getHands().get(getCurrentHand()).setMessage("");
+        if (newHand.getCards().get(0).getValue() == 1) {
+            newHand.setAce(true);
+        }
         newHand.setTotal();
         newHand.setMessage("");
         this.getHands().add(newHand);
