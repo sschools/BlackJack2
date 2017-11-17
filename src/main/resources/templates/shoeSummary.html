@@ -13,5 +13,8 @@
     <p>Average Change in Bankroll: <span th:text="${table.getShoeStat().getAvBrDelta()}"></span></p>
     <p>Max Change in Bankroll: <span th:text="${table.getShoeStat().getMaxBrDelta()}"></span></p>
     <p>Min Change in Bankroll: <span th:text="${table.getShoeStat().getMinBrDelta()}"></span></p>
+    <form action="/shuffleCards" method="post">
+        <button type="submit">Shulffe Shoe and Post Stats</button>
+    </form>
 </body>
 </html>

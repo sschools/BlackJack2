@@ -4,6 +4,7 @@ import com.schools.blackjack.model.CardTable;
 import com.schools.blackjack.model.Hand;
 import com.schools.blackjack.model.Player;
 import com.schools.blackjack.service.ShoeService;
+import com.schools.blackjack.service.StatService;
 import com.schools.blackjack.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,9 @@ public class GameController {
 
     @Autowired
     ShoeService shoeService;
+
+    @Autowired
+    StatService statService;
 
     CardTable cardTable = new CardTable();
 
@@ -97,6 +102,7 @@ public class GameController {
 
     @RequestMapping(path = "/shuffleCards", method = RequestMethod.POST)
     public String shuffle() {
+        statService.add(cardTable.getShoeStat());
         cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
         cardTable.setStats();
         CardTable tempTable = tableService.dealCards(cardTable);
