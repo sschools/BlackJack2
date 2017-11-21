@@ -252,6 +252,7 @@ public class CardTable {
     public void setStats() {
         ShoeStat tempStat = new ShoeStat();
         tempStat.setNumPlayers(this.getPlayers().size());
+        System.out.println("NumPlayers from set stats method: " + this.getPlayers().size());
         tempStat.setNumHands(0);
         tempStat.setWinHands(0);
         tempStat.setWinHands(0);
