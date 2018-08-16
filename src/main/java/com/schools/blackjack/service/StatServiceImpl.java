@@ -9,8 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class StatServiceImpl implements StatService {
+
+    private final StatRepository statRepository;
+
     @Autowired
-    StatRepository statRepository;
+    public StatServiceImpl(StatRepository statRepository) {
+        this.statRepository = statRepository;
+    }
 
     @Override
     public ShoeStat add(ShoeStat shoeStat) {

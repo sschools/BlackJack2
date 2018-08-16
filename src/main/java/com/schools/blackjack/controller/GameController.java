@@ -3,62 +3,60 @@ package com.schools.blackjack.controller;
 import com.schools.blackjack.model.CardTable;
 import com.schools.blackjack.model.Hand;
 import com.schools.blackjack.model.Player;
-import com.schools.blackjack.service.ShoeService;
 import com.schools.blackjack.service.StatService;
 import com.schools.blackjack.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class GameController {
-    @Autowired
-    TableService tableService;
+
+    private TableService tableService;
+    private StatService statService;
 
     @Autowired
-    ShoeService shoeService;
+    public GameController(TableService tableService, StatService statService) {
+        this.tableService = tableService;
+        this.statService = statService;
+    }
 
-    @Autowired
-    StatService statService;
+    private CardTable cardTable = new CardTable();
 
-    CardTable cardTable = new CardTable();
-
-    @RequestMapping(path ="/", method = RequestMethod.GET)
+    @GetMapping(path ="/")
     public String index() {
         return "index";
     }
 
-    @RequestMapping(path = "/cardTable", method = RequestMethod.GET)
+    @GetMapping(path = "/cardTable")
     public String showTable(Model model) {
         model.addAttribute("table", cardTable);
         return "cardTable";
     }
 
-    @RequestMapping(path = "/shoeSummary", method = RequestMethod.GET)
+    @GetMapping(path = "/shoeSummary")
     public String shoeRes(Model model) {
         model.addAttribute("table", cardTable);
         return "shoeSummary";
     }
 
-    @RequestMapping(path = "/index", method = RequestMethod.POST)
+    @PostMapping(path = "/index")
     public String start(@RequestParam(value="num-players") int num) {
         cardTable = tableService.initializeTable(num);
-        cardTable.setShoe(shoeService.loadShoe(cardTable.getShoe()));
-        cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
+        cardTable.setShoe((cardTable.getShoe().loadShoe()));
+        cardTable.setShoe((cardTable.getShoe().shuffleShoe()));
         cardTable.setStats();
         CardTable tempTable = tableService.dealCards(cardTable);
         cardTable = tempTable;
         return "redirect:/cardTable";
     }
 
-    @RequestMapping(path = "/cardTable", method = RequestMethod.POST)
+    @PostMapping(path = "/cardTable")
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
         if (action.equals("hit") || action.equals("double")) {
             int currentPlayerNum = cardTable.getCurrentPlayer();
@@ -88,22 +86,22 @@ public class GameController {
         return "redirect:/cardTable";
     }
 
-    @RequestMapping(path = "/dealCards", method = RequestMethod.POST)
+    @PostMapping(path = "/dealCards")
     public String deal() {
         CardTable tempTable = tableService.dealCards(cardTable);
         cardTable = tempTable;
         return "redirect:/cardTable";
     }
 
-    @RequestMapping(path = "/seeStats", method = RequestMethod.POST)
+    @PostMapping(path = "/seeStats")
     public String statPage() {
         return "redirect:/shoeSummary";
     }
 
-    @RequestMapping(path = "/shuffleCards", method = RequestMethod.POST)
+    @PostMapping(path = "/shuffleCards")
     public String shuffle() {
         statService.add(cardTable.getShoeStat());
-        cardTable.setShoe(shoeService.shuffleShoe(cardTable.getShoe()));
+        cardTable.setShoe((cardTable.getShoe().shuffleShoe()));
         cardTable.setStats();
         CardTable tempTable = tableService.dealCards(cardTable);
         cardTable = tempTable;
