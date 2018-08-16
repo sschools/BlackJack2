@@ -4,7 +4,6 @@ import com.schools.blackjack.model.CardTable;
 import com.schools.blackjack.model.Hand;
 import com.schools.blackjack.model.Player;
 import com.schools.blackjack.service.StatService;
-import com.schools.blackjack.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +16,10 @@ import java.util.List;
 @Controller
 public class GameController {
 
-    private TableService tableService;
     private StatService statService;
 
     @Autowired
-    public GameController(TableService tableService, StatService statService) {
-        this.tableService = tableService;
+    public GameController(StatService statService) {
         this.statService = statService;
     }
 
@@ -47,12 +44,11 @@ public class GameController {
 
     @PostMapping(path = "/index")
     public String start(@RequestParam(value="num-players") int num) {
-        cardTable = tableService.initializeTable(num);
+        cardTable.initializeTable(num, cardTable);
         cardTable.setShoe((cardTable.getShoe().loadShoe()));
         cardTable.setShoe((cardTable.getShoe().shuffleShoe()));
         cardTable.setStats();
-        CardTable tempTable = tableService.dealCards(cardTable);
-        cardTable = tempTable;
+        cardTable.dealCards();
         return "redirect:/cardTable";
     }
 
@@ -88,8 +84,7 @@ public class GameController {
 
     @PostMapping(path = "/dealCards")
     public String deal() {
-        CardTable tempTable = tableService.dealCards(cardTable);
-        cardTable = tempTable;
+        cardTable.dealCards();
         return "redirect:/cardTable";
     }
 
@@ -103,8 +98,7 @@ public class GameController {
         statService.add(cardTable.getShoeStat());
         cardTable.setShoe((cardTable.getShoe().shuffleShoe()));
         cardTable.setStats();
-        CardTable tempTable = tableService.dealCards(cardTable);
-        cardTable = tempTable;
+        cardTable.dealCards();
         cardTable.setMessage("");
         cardTable.setEndShoe(false);
         return "redirect:/cardTable";

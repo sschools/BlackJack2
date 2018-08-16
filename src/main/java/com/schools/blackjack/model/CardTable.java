@@ -266,4 +266,103 @@ public class CardTable {
             this.getShoe().initBankrolls.add(player.getBankroll().get(0));
         }
     }
+
+    public void initializeTable(int numPlayers, CardTable cardTable) {
+        List<Player> players = new ArrayList<>();
+        for (int i = 0; i < numPlayers; i++) {
+            Player newPlayer = new Player();
+            newPlayer.setBets(new ArrayList<>());
+            newPlayer.setBankroll(new ArrayList<>());
+            int pNum = i + 1;
+            newPlayer.setName("Player #" + Integer.toString(pNum));
+            newPlayer.getBets().add(2);
+            newPlayer.getBankroll().add(1000);
+            newPlayer.setCanHit(false);
+            newPlayer.setCanStand(false);
+            newPlayer.setCanDouble(false);
+            newPlayer.setCanSplit(false);
+            players.add(newPlayer);
+        }
+        cardTable.setPlayers(players);
+        Shoe shoe = new Shoe();
+        cardTable.setShoe(shoe);
+
+        Dealer dealer = new Dealer();
+        cardTable.setDealer(dealer);
+    }
+
+    public void dealCards() {
+        this.setEndRound(false);
+        this.setMessage("");
+        Shoe shoe = this.getShoe();
+        Dealer dealer = this.getDealer();
+        List<Player> players = this.getPlayers();
+        for (Player player : players) {
+            List<Hand> hands = new ArrayList<>();
+            Hand hand = new Hand();
+            hands.add(hand);
+            player.setHands(hands);
+            player.setCurrentHand(0);
+        }
+        // deals cards to players at table
+        int i = this.getPlayers().size();
+        for (int j = 0; j < i; j++) {
+            Hand currentHand = players.get(j).getHands().get(0);
+            List<Card> cards = new ArrayList<>();
+            currentHand.setCards(cards);
+            currentHand.setAce(false);
+            currentHand.setMessage("");
+            currentHand.setActive(false);
+            Card first = shoe.getShoeCards().get(shoe.getIndex() + j);
+            Card second = shoe.getShoeCards().get(shoe.getIndex() + j + i + 1);
+            currentHand.getCards().add(first);
+            currentHand.getCards().add(second);
+            if (first.getName().equals("A") || second.getName().equals("A")) {
+                currentHand.setAce(true);
+            }
+            currentHand.setTotal();
+            List<Hand> hands = new ArrayList<>();
+            hands.add(currentHand);
+            players.get(j).setHands(hands);
+            this.getShoeStat().setNumHands(this.getShoeStat().getNumHands() + 1);
+        }
+
+        //deals dealers cards
+        Hand hand = new Hand();
+        dealer.setHand(hand);
+        Hand dealerHand = dealer.getHand();
+        List<Card> cards1 = new ArrayList<>();
+        dealerHand.setCards(cards1);
+        dealerHand.setAce(false);
+        dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i));
+        dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));
+        dealerHand.getCards().get(1).setAbName("**");
+        if (dealerHand.getCards().get(0).getName().equals("A") || dealerHand.getCards().get(1).getName().equals("A")) {
+            dealerHand.setAce(true);
+        }
+        dealer.setHand(dealerHand);
+
+        //moves location in shoe
+        int currentLoc = shoe.getIndex();
+        currentLoc += 2*(i+1);
+        shoe.setIndex(currentLoc);
+
+        this.setDealer(dealer);
+        this.setPlayers(players);
+        this.setShoe(shoe);
+
+        //handles dealer having blackjack
+        if (dealerHand.blackJack()) {
+            this.dealerHasBlackJack();
+        } else {
+            this.getPlayers().get(0).setButtons();
+            this.setCurrentPlayer(0);
+            this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setActive(true);
+            this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setTotal();
+            if (this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).getTotal() == 21) {
+                this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setMessage("BlackJack!!!");
+                this.stand();
+            }
+        }
+    }
 }
