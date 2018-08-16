@@ -45,39 +45,40 @@ public class GameController {
     @PostMapping(path = "/index")
     public String start(@RequestParam(value="num-players") int num) {
         cardTable.initializeTable(num, cardTable);
-        cardTable.setShoe((cardTable.getShoe().loadShoe()));
-        cardTable.setShoe((cardTable.getShoe().shuffleShoe()));
-        cardTable.setStats();
-        cardTable.dealCards();
         return "redirect:/cardTable";
     }
 
     @PostMapping(path = "/cardTable")
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
-        if (action.equals("hit") || action.equals("double")) {
-            int currentPlayerNum = cardTable.getCurrentPlayer();
-            int currentHandNum = cardTable.getPlayers().get(currentPlayerNum).getCurrentHand();
-            Hand hand = cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
-            Hand hitHand = cardTable.hit(hand);
-            List<Hand> hands = cardTable.getPlayers().get(currentPlayerNum).getHands();
-            if (action.equals("double")) {
-                hitHand.setDoubleDown(true);
-                hitHand.setMessage(hitHand.getMessage() + "Double Down");
-            }
-            hands.remove(cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
-            hands.add( currentHandNum, hitHand);
-            cardTable.getPlayers().get(currentPlayerNum).setHands(hands);
-            cardTable.getPlayers().get(currentPlayerNum).setButtons();
-            if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
+        switch (action) {
+            case "hit":
+            case "double":
+                int currentPlayerNum = cardTable.getCurrentPlayer();
+                int currentHandNum = cardTable.getPlayers().get(currentPlayerNum).getCurrentHand();
+                Hand hand = cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
+                Hand hitHand = cardTable.hit(hand);
+                List<Hand> hands = cardTable.getPlayers().get(currentPlayerNum).getHands();
+                if (action.equals("double")) {
+                    hitHand.setDoubleDown(true);
+                    hitHand.setMessage(hitHand.getMessage() + "Double Down");
+                }
+                hands.remove(cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
+                hands.add(currentHandNum, hitHand);
+                cardTable.getPlayers().get(currentPlayerNum).setHands(hands);
+                cardTable.getPlayers().get(currentPlayerNum).setButtons();
+                if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
+                    cardTable.stand();
+                }
+                break;
+            case "stand":
                 cardTable.stand();
-            }
-        } else if (action.equals("stand")) {
-            cardTable.stand();
-        } else if (action.equals("split")) {
-            Player current = cardTable.getPlayers().get(cardTable.getCurrentPlayer());
-            current.setSplitHands(true);
-            cardTable.getShoeStat().setNumHands(cardTable.getShoeStat().getNumHands() + 1);
-            current.split();
+                break;
+            case "split":
+                Player current = cardTable.getPlayers().get(cardTable.getCurrentPlayer());
+                current.setSplitHands(true);
+                cardTable.getShoeStat().setNumHands(cardTable.getShoeStat().getNumHands() + 1);
+                current.split();
+                break;
         }
         return "redirect:/cardTable";
     }
@@ -96,11 +97,7 @@ public class GameController {
     @PostMapping(path = "/shuffleCards")
     public String shuffle() {
         statService.add(cardTable.getShoeStat());
-        cardTable.setShoe((cardTable.getShoe().shuffleShoe()));
-        cardTable.setStats();
-        cardTable.dealCards();
-        cardTable.setMessage("");
-        cardTable.setEndShoe(false);
+        cardTable.resetShoe(cardTable.getShoe());
         return "redirect:/cardTable";
     }
 }

@@ -48,7 +48,7 @@ public class CardTable {
         return dealer;
     }
 
-    public void setDealer(Dealer dealer) {
+    private void setDealer(Dealer dealer) {
         this.dealer = dealer;
     }
 
@@ -64,7 +64,7 @@ public class CardTable {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(int currentPlayer) {
+    private void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -72,7 +72,7 @@ public class CardTable {
         return endRound;
     }
 
-    public void setEndRound(boolean endRound) {
+    private void setEndRound(boolean endRound) {
         this.endRound = endRound;
     }
 
@@ -88,7 +88,7 @@ public class CardTable {
         return shoeStat;
     }
 
-    public void setShoeStat(ShoeStat shoeStat) {
+    private void setShoeStat(ShoeStat shoeStat) {
         this.shoeStat = shoeStat;
     }
 
@@ -107,7 +107,7 @@ public class CardTable {
         this.endHand();
     }
 
-    public void endHand() {
+    private void endHand() {
         // method should adjust bankrolls based on bets and win value of each hand
         for (Player player : this.players) {
             for (Hand hand : player.getHands()) {
@@ -158,7 +158,7 @@ public class CardTable {
 
     }
 
-    public void setWins() {
+    private void setWins() {
         for (Player player : this.players) {
             for (Hand hand : player.getHands()) {
                 if (hand.isBust()) {
@@ -191,7 +191,7 @@ public class CardTable {
         this.endHand();
     }
 
-    public void playDealer() {
+    private void playDealer() {
         String name = this.getDealer().getHand().getCards().get(1).getName();
         String suit = this.getDealer().getHand().getCards().get(1).getSuit();
         this.getDealer().getHand().getCards().get(1).setAbName(name + suit.substring(0,1));
@@ -249,6 +249,14 @@ public class CardTable {
         }
     }
 
+    public void resetShoe(Shoe shoe) {
+        shoe.shuffleShoe();
+        this.setStats();
+        this.dealCards();
+        this.setMessage("");
+        this.setEndShoe(false);
+    }
+
     public void setStats() {
         ShoeStat tempStat = new ShoeStat();
         tempStat.setNumPlayers(this.getPlayers().size());
@@ -285,10 +293,13 @@ public class CardTable {
         }
         cardTable.setPlayers(players);
         Shoe shoe = new Shoe();
-        cardTable.setShoe(shoe);
+        cardTable.setShoe(shoe.loadShoe());
+        cardTable.setShoe(shoe.shuffleShoe());
 
         Dealer dealer = new Dealer();
         cardTable.setDealer(dealer);
+        cardTable.setStats();
+        cardTable.dealCards();
     }
 
     public void dealCards() {
