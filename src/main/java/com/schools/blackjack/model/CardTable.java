@@ -376,4 +376,37 @@ public class CardTable {
             }
         }
     }
+
+    public void doAction(String action) {
+        switch (action) {
+            case "hit":
+            case "double":
+                int currentPlayerNum = this.getCurrentPlayer();
+                int currentHandNum = this.getPlayers().get(currentPlayerNum).getCurrentHand();
+                Hand hand = this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
+                Hand hitHand = this.hit(hand);
+                List<Hand> hands = this.getPlayers().get(currentPlayerNum).getHands();
+                if (action.equals("double")) {
+                    hitHand.setDoubleDown(true);
+                    hitHand.setMessage(hitHand.getMessage() + "Double Down");
+                }
+                hands.remove(this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
+                hands.add(currentHandNum, hitHand);
+                this.getPlayers().get(currentPlayerNum).setHands(hands);
+                this.getPlayers().get(currentPlayerNum).setButtons();
+                if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
+                    this.stand();
+                }
+                break;
+            case "stand":
+                this.stand();
+                break;
+            case "split":
+                Player current = this.getPlayers().get(this.getCurrentPlayer());
+                current.setSplitHands(true);
+                this.getShoeStat().setNumHands(this.getShoeStat().getNumHands() + 1);
+                current.split();
+                break;
+        }
+    }
 }

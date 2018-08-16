@@ -1,8 +1,6 @@
 package com.schools.blackjack.controller;
 
 import com.schools.blackjack.model.CardTable;
-import com.schools.blackjack.model.Hand;
-import com.schools.blackjack.model.Player;
 import com.schools.blackjack.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class GameController {
@@ -50,36 +46,7 @@ public class GameController {
 
     @PostMapping(path = "/cardTable")
     public String buttonClicked(@RequestParam(value = "actionButton") String action) {
-        switch (action) {
-            case "hit":
-            case "double":
-                int currentPlayerNum = cardTable.getCurrentPlayer();
-                int currentHandNum = cardTable.getPlayers().get(currentPlayerNum).getCurrentHand();
-                Hand hand = cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
-                Hand hitHand = cardTable.hit(hand);
-                List<Hand> hands = cardTable.getPlayers().get(currentPlayerNum).getHands();
-                if (action.equals("double")) {
-                    hitHand.setDoubleDown(true);
-                    hitHand.setMessage(hitHand.getMessage() + "Double Down");
-                }
-                hands.remove(cardTable.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
-                hands.add(currentHandNum, hitHand);
-                cardTable.getPlayers().get(currentPlayerNum).setHands(hands);
-                cardTable.getPlayers().get(currentPlayerNum).setButtons();
-                if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
-                    cardTable.stand();
-                }
-                break;
-            case "stand":
-                cardTable.stand();
-                break;
-            case "split":
-                Player current = cardTable.getPlayers().get(cardTable.getCurrentPlayer());
-                current.setSplitHands(true);
-                cardTable.getShoeStat().setNumHands(cardTable.getShoeStat().getNumHands() + 1);
-                current.split();
-                break;
-        }
+        cardTable.doAction(action);
         return "redirect:/cardTable";
     }
 
