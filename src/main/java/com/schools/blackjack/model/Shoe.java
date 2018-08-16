@@ -24,11 +24,11 @@ public class Shoe {
         this.numDecks = numDecks;
     }
 
-    public int getIndex() {
+    int getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
+    void setIndex(int index) {
         this.index = index;
     }
 
@@ -36,7 +36,7 @@ public class Shoe {
         return yellow;
     }
 
-    public void setYellow(int yellow) {
+    private void setYellow(int yellow) {
         this.yellow = yellow;
     }
 
@@ -58,7 +58,7 @@ public class Shoe {
                 '}';
     }
 
-    public Shoe loadShoe() {
+    Shoe loadShoe() {
         this.setNumDecks(8);
         List<Card> cards = new ArrayList<>();
         this.setShoeCards(cards);
@@ -111,7 +111,7 @@ public class Shoe {
         return this;
     }
 
-    public Shoe shuffleShoe() {
+    Shoe shuffleShoe() {
         Random r = new Random();
         int pent = r.nextInt(52) + 312;
         this.setYellow(pent);
