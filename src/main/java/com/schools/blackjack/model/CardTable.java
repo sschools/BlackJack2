@@ -32,7 +32,7 @@ public class CardTable {
         return shoe;
     }
 
-    public void setShoe(Shoe shoe) {
+    private void setShoe(Shoe shoe) {
         this.shoe = shoe;
     }
 
@@ -56,11 +56,11 @@ public class CardTable {
         return message;
     }
 
-    public void setMessage(String message) {
+    private void setMessage(String message) {
         this.message = message;
     }
 
-    public int getCurrentPlayer() {
+    private int getCurrentPlayer() {
         return currentPlayer;
     }
 
@@ -80,7 +80,7 @@ public class CardTable {
         return endShoe;
     }
 
-    public void setEndShoe(boolean endShoe) {
+    private void setEndShoe(boolean endShoe) {
         this.endShoe = endShoe;
     }
 
@@ -206,7 +206,7 @@ public class CardTable {
         this.setWins();
     }
 
-    public Hand hit(Hand hand) {
+    private Hand hit(Hand hand) {
         Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
         // this gets first hand, will need to adjust for multiple hands after a split
 
@@ -223,7 +223,7 @@ public class CardTable {
         return current;
     }
 
-    public void stand() {
+    private void stand() {
         int currentP = this.getCurrentPlayer();
         int currentH = this.getPlayers().get(currentP).getCurrentHand();
         this.getPlayers().get(currentP).clearButtons();
@@ -257,7 +257,7 @@ public class CardTable {
         this.setEndShoe(false);
     }
 
-    public void setStats() {
+    private void setStats() {
         ShoeStat tempStat = new ShoeStat();
         tempStat.setNumPlayers(this.getPlayers().size());
         System.out.println("NumPlayers from set stats method: " + this.getPlayers().size());
