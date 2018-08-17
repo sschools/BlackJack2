@@ -1,7 +1,6 @@
 package com.schools.blackjack.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "shoe")
@@ -16,7 +15,7 @@ public class ShoeStat {
     private double maxBrDelta;
     private double minBrDelta;
 
-    public ShoeStat() {
+    ShoeStat() {
     }
 
     @Id
@@ -30,29 +29,29 @@ public class ShoeStat {
     }
 
     @Column(name = "numplayers")
-    public int getNumPlayers() {
+    int getNumPlayers() {
         return numPlayers;
     }
 
-    public void setNumPlayers(int numPlayers) {
+    void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
     }
 
     @Column(name = "numhands")
-    public int getNumHands() {
+    int getNumHands() {
         return numHands;
     }
 
-    public void setNumHands(int numHands) {
+    void setNumHands(int numHands) {
         this.numHands = numHands;
     }
 
     @Column(name = "winhands")
-    public int getWinHands() {
+    int getWinHands() {
         return winHands;
     }
 
-    public void setWinHands(int winHands) {
+    void setWinHands(int winHands) {
         this.winHands = winHands;
     }
 
@@ -61,7 +60,7 @@ public class ShoeStat {
         return betStrat;
     }
 
-    public void setBetStrat(int betStrat) {
+    void setBetStrat(int betStrat) {
         this.betStrat = betStrat;
     }
 
@@ -70,7 +69,7 @@ public class ShoeStat {
         return winPercent;
     }
 
-    public void setWinPercent(double winPercent) {
+    void setWinPercent(double winPercent) {
         this.winPercent = winPercent;
     }
 
@@ -79,7 +78,7 @@ public class ShoeStat {
         return avBrDelta;
     }
 
-    public void setAvBrDelta(double avBrDelta) {
+    void setAvBrDelta(double avBrDelta) {
         this.avBrDelta = avBrDelta;
     }
 
@@ -88,7 +87,7 @@ public class ShoeStat {
         return maxBrDelta;
     }
 
-    public void setMaxBrDelta(double maxBrDelta) {
+    void setMaxBrDelta(double maxBrDelta) {
         this.maxBrDelta = maxBrDelta;
     }
 
@@ -97,7 +96,7 @@ public class ShoeStat {
         return minBrDelta;
     }
 
-    public void setMinBrDelta(double minBrDelta) {
+    void setMinBrDelta(double minBrDelta) {
         this.minBrDelta = minBrDelta;
     }
 }
