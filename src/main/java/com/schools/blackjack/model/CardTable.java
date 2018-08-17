@@ -225,8 +225,9 @@ public class CardTable {
         Hand hand = this.getDealer().getHand();
         hand.setTotal();
         while (hand.getTotal() < 17) {
-            Hand hitHand = this.hit(hand);
-            hand = hitHand;
+            hand.hit(this.getShoe());
+//            Hand hitHand = this.hit(hand);
+//            hand = hitHand;
             hand.setTotal();
         }
         this.getDealer().setHand(hand);
@@ -409,17 +410,17 @@ public class CardTable {
                 int currentPlayerNum = this.getCurrentPlayer();
                 int currentHandNum = this.getPlayers().get(currentPlayerNum).getCurrentHand();
                 Hand hand = this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
-                Hand hitHand = this.hit(hand);
+                hand.hit(this.getShoe());
                 List<Hand> hands = this.getPlayers().get(currentPlayerNum).getHands();
                 if (action.equals("double")) {
-                    hitHand.setDoubleDown(true);
-                    hitHand.setMessage(hitHand.getMessage() + "Double Down");
+                    hand.setDoubleDown(true);
+                    hand.setMessage(hand.getMessage() + "Double Down");
                 }
                 hands.remove(this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
-                hands.add(currentHandNum, hitHand);
+                hands.add(currentHandNum, hand);
                 this.getPlayers().get(currentPlayerNum).setHands(hands);
                 this.getPlayers().get(currentPlayerNum).setButtons();
-                if (hitHand.isBust() || hitHand.getTotal() == 21 || hitHand.isDoubleDown()) {
+                if (hand.isBust() || hand.getTotal() == 21 || hand.isDoubleDown()) {
                     this.stand();
                 }
                 break;

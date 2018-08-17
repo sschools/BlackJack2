@@ -128,4 +128,7 @@ public class Shoe {
         return this;
     }
 
+    Card getNextCard() {
+        return this.getShoeCards().get(this.getIndex());
+    }
 }

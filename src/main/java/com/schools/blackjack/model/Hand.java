@@ -91,11 +91,20 @@ public class Hand {
         int second = 0;
         first = this.cards.get(0).getValue();
         second = this.cards.get(1).getValue();
-        if ((first == 1 && second == 10) || (second == 1 && first == 10)) {
-            temp = true;
-        } else {
-            temp = false;
-        }
+        temp = (first == 1 && second == 10) || (second == 1 && first == 10);
         return temp;
+    }
+
+    public void hit(Shoe shoe) {
+        Card newCard = shoe.getNextCard();
+        if (newCard.getValue() == 1) {
+            this.setAce(true);
+        }
+        this.getCards().add(newCard);
+        this.setTotal();
+        if (this.getTotal() > 21) {
+            this.setBust(true);
+        }
+        shoe.setIndex(shoe.getIndex() + 1);
     }
 }
