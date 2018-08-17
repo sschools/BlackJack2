@@ -39,9 +39,16 @@ public class GameController {
     }
 
     @PostMapping(path = "/index")
-    public String start(@RequestParam(value="num-players") int num) {
-        cardTable.initializeTable(num, cardTable);
-        return "redirect:/cardTable";
+    public String start(@RequestParam(value="num-players") int num, @RequestParam(value="game-type") String gameType) {
+        cardTable.initializeTable(num, gameType, cardTable);
+        if (gameType.equals("manual")) {
+            return "redirect:/cardTable";
+        } else if (gameType.equals("simSingleHand")) {
+            return "simSingleSetup";
+        } else {
+            return "simMultipleSetup";
+        }
+
     }
 
     @PostMapping(path = "/cardTable")
@@ -65,6 +72,12 @@ public class GameController {
     public String shuffle() {
         statService.add(cardTable.getShoeStat());
         cardTable.resetShoe(cardTable.getShoe());
+        return "redirect:/cardTable";
+    }
+
+    @PostMapping(path = "/simMultipleSetup")
+    public String startMultipleSim(@RequestParam String pace, @RequestParam int numShoes) {
+        cardTable.setUpMultipleSimulation(pace, numShoes, cardTable);
         return "redirect:/cardTable";
     }
 }

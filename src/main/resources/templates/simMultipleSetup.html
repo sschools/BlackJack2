@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Multiple Set Up</title>
+</head>
+<body>
+    <h2>Multiple Hand Set Up Screen</h2>
+    <h3>Pace of Play:</h3>
+    <form action="simMultipleSetup.html" method="post">
+        <input type="radio" name="pace" value="hand">One Hand at a Time</input><br/>
+        <input type="radio" name="pace" value="shoe">One Shoe at a Time</input><br/>
+        <input type="radio" name="pace" value="full">Run Entire Simulation</input><br/>
+        <h3>Number of Shoes:</h3>
+        <select name="numShoes">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="10">10</option>
+            <option value="100">100</option>
+            <option value="1000">1000</option>
+        </select><br/>
+        <button type="submit">Start</button>
+    </form>
+
+</body>
+</html>

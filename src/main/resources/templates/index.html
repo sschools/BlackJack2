@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Welcome to Blackjack</h1>
-<h2>Set the Number of Players Below</h2>
+<h2>Set the Number of Players Below:</h2>
 <form action="/index.html" method="post">
     <select name="num-players">
         <option value="1">1</option>
@@ -14,6 +14,11 @@
         <option value="3">3</option>
         <option value="4">4</option>
     </select>
+    <h2>Set the Game Type Below:</h2>
+    <input type="radio" name="game-type" value="manual">Manual</input><br/>
+    <input type="radio" name="game-type" value="simSingleHand">Simulation with One Basic Strategy Test</input><br/>
+    <input type="radio" name="game-type" value="simMultiple">Simulation with Multiple Hands or Shoes</input><br/>
+    <h2>Click To Start:</h2>
     <button type="submit">Start Game</button>
 </form>
 </body>

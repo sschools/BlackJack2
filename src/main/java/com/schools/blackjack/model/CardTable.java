@@ -14,6 +14,9 @@ public class CardTable {
     private boolean endRound;
     private boolean endShoe;
     private ShoeStat shoeStat;
+    private String gameType;
+    private String pace;
+    private int numShoes;
 
     public CardTable() {
     }
@@ -90,6 +93,30 @@ public class CardTable {
 
     private void setShoeStat(ShoeStat shoeStat) {
         this.shoeStat = shoeStat;
+    }
+
+    public String getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(String gameType) {
+        this.gameType = gameType;
+    }
+
+    public String getPace() {
+        return pace;
+    }
+
+    public void setPace(String pace) {
+        this.pace = pace;
+    }
+
+    public int getNumShoes() {
+        return numShoes;
+    }
+
+    public void setNumShoes(int numShoes) {
+        this.numShoes = numShoes;
     }
 
     public void dealerHasBlackJack() {
@@ -208,19 +235,17 @@ public class CardTable {
 
     private Hand hit(Hand hand) {
         Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
-        // this gets first hand, will need to adjust for multiple hands after a split
 
-        Hand current = hand;
         if (next.getValue() == 1) {
-            current.setAce(true);
+            hand.setAce(true);
         }
-        current.getCards().add(next);
-        current.setTotal();
-        if (current.getTotal() > 21) {
-            current.setBust(true);
+        hand.getCards().add(next);
+        hand.setTotal();
+        if (hand.getTotal() > 21) {
+            hand.setBust(true);
         }
         this.getShoe().setIndex(this.getShoe().getIndex() + 1);
-        return current;
+        return hand;
     }
 
     private void stand() {
@@ -275,7 +300,8 @@ public class CardTable {
         }
     }
 
-    public void initializeTable(int numPlayers, CardTable cardTable) {
+    public void initializeTable(int numPlayers, String gameType, CardTable cardTable) {
+        cardTable.setGameType(gameType);
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
             Player newPlayer = new Player();
@@ -408,5 +434,10 @@ public class CardTable {
                 current.split();
                 break;
         }
+    }
+
+    public void setUpMultipleSimulation(String pace, int numShoes, CardTable cardTable) {
+        cardTable.setPace(pace);
+        cardTable.setNumShoes(numShoes);
     }
 }
