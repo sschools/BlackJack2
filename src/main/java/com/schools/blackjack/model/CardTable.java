@@ -226,27 +226,10 @@ public class CardTable {
         hand.setTotal();
         while (hand.getTotal() < 17) {
             hand.hit(this.getShoe());
-//            Hand hitHand = this.hit(hand);
-//            hand = hitHand;
             hand.setTotal();
         }
         this.getDealer().setHand(hand);
         this.setWins();
-    }
-
-    private Hand hit(Hand hand) {
-        Card next = this.getShoe().getShoeCards().get(this.getShoe().getIndex());
-
-        if (next.getValue() == 1) {
-            hand.setAce(true);
-        }
-        hand.getCards().add(next);
-        hand.setTotal();
-        if (hand.getTotal() > 21) {
-            hand.setBust(true);
-        }
-        this.getShoe().setIndex(this.getShoe().getIndex() + 1);
-        return hand;
     }
 
     private void stand() {
