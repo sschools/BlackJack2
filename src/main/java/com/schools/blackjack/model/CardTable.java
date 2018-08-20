@@ -120,9 +120,7 @@ public class CardTable {
     }
 
     public void dealerHasBlackJack() {
-        String name = this.getDealer().getHand().getCards().get(1).getName();
-        String suit = this.getDealer().getHand().getCards().get(1).getSuit();
-        this.getDealer().getHand().getCards().get(1).setAbName(name + suit.substring(0,1));
+        this.getDealer().setDealerShortName(this.getDealer().getHand().getCards().get(1));
         for (Player player : this.players) {
             if (player.getHands().get(0).blackJack()) {
                 player.getHands().get(0).setWin(0);
@@ -219,9 +217,7 @@ public class CardTable {
     }
 
     private void playDealer() {
-        String name = this.getDealer().getHand().getCards().get(1).getName();
-        String suit = this.getDealer().getHand().getCards().get(1).getSuit();
-        this.getDealer().getHand().getCards().get(1).setAbName(name + suit.substring(0,1));
+        this.getDealer().setDealerShortName(this.getDealer().getHand().getCards().get(1));
         Hand hand = this.getDealer().getHand();
         hand.setTotal();
         while (hand.getTotal() < 17) {
@@ -319,8 +315,7 @@ public class CardTable {
         List<Player> players = this.getPlayers();
         for (Player player : players) {
             List<Hand> hands = new ArrayList<>();
-            Hand hand = new Hand();
-            hands.add(hand);
+            hands.add(new Hand());
             player.setHands(hands);
             player.setCurrentHand(0);
         }
@@ -348,11 +343,9 @@ public class CardTable {
         }
 
         //deals dealers cards
-        Hand hand = new Hand();
-        dealer.setHand(hand);
+        dealer.setHand(new Hand());
         Hand dealerHand = dealer.getHand();
-        List<Card> cards1 = new ArrayList<>();
-        dealerHand.setCards(cards1);
+        dealerHand.setCards(new ArrayList<>());
         dealerHand.setAce(false);
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i));
         dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));

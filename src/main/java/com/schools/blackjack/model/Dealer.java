@@ -13,4 +13,9 @@ public class Dealer {
     public void setHand(Hand hand) {
         this.hand = hand;
     }
+
+    public Card setDealerShortName(Card card) {
+        card.setAbName(card.getName() + card.getSuit().substring(0,1));
+        return card;
+    }
 }
