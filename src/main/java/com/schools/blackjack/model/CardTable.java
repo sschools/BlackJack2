@@ -150,16 +150,16 @@ public class CardTable {
         if (this.getShoe().getIndex() > this.getShoe().getYellow()) {
             this.setEndShoe(true); //thymeleaf to show stats button
             this.setMessage("End of Shoe.");
-            this.getShoe().endBankrolls = new ArrayList<>();
+            this.getShoe().setEndBankrolls(new ArrayList<>());
             for (Player player : this.getPlayers()) {
-                this.getShoe().endBankrolls.add(player.getBankroll().get(0));
+                this.getShoe().getEndBankrolls().add(player.getBankroll().get(0));
 
             }
             int totalDiff = 0;
             int max = 0;
             int min = 0;
             for (int i = 0; i < this.getPlayers().size(); i++) {
-                int tempDiff = this.getShoe().endBankrolls.get(i) - this.getShoe().initBankrolls.get(i);
+                int tempDiff = this.getShoe().getEndBankrolls().get(i) - this.getShoe().getInitBankrolls().get(i);
                 if (i == 0) {
                     min = tempDiff;
                     max = tempDiff;
@@ -273,9 +273,9 @@ public class CardTable {
         tempStat.setMaxBrDelta(0);
         tempStat.setMinBrDelta(0);
         this.setShoeStat(tempStat);
-        this.getShoe().initBankrolls = new ArrayList<>();
+        this.getShoe().setInitBankrolls(new ArrayList<>());
         for (Player player : this.getPlayers()) {
-            this.getShoe().initBankrolls.add(player.getBankroll().get(0));
+            this.getShoe().getInitBankrolls().add(player.getBankroll().get(0));
         }
     }
 

@@ -41,6 +41,7 @@ public class GameController {
     @PostMapping(path = "/index")
     public String start(@RequestParam(value="num-players") int num, @RequestParam(value="game-type") String gameType) {
         cardTable.initializeTable(num, gameType);
+        System.out.println(cardTable.getShoeStat().getNumPlayers());
         if (gameType.equals("manual")) {
             return "redirect:/cardTable";
         } else if (gameType.equals("simSingleHand")) {

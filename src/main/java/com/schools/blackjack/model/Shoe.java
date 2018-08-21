@@ -9,8 +9,8 @@ public class Shoe {
     private int index;
     private int yellow;
     private List<Card> shoeCards;
-    List<Integer> initBankrolls;
-    List<Integer> endBankrolls;
+    private List<Integer> initBankrolls;
+    private List<Integer> endBankrolls;
 
     public Shoe() {
 
@@ -46,6 +46,22 @@ public class Shoe {
 
     private void setShoeCards(List<Card> shoeCards) {
         this.shoeCards = shoeCards;
+    }
+
+    public List<Integer> getInitBankrolls() {
+        return initBankrolls;
+    }
+
+    public void setInitBankrolls(List<Integer> initBankrolls) {
+        this.initBankrolls = initBankrolls;
+    }
+
+    public List<Integer> getEndBankrolls() {
+        return endBankrolls;
+    }
+
+    public void setEndBankrolls(List<Integer> endBankrolls) {
+        this.endBankrolls = endBankrolls;
     }
 
     @Override
