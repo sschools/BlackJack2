@@ -294,6 +294,7 @@ public class CardTable {
             newPlayer.setCanStand(false);
             newPlayer.setCanDouble(false);
             newPlayer.setCanSplit(false);
+            newPlayer.resetWinList();
             players.add(newPlayer);
         }
         cardTable.setPlayers(players);

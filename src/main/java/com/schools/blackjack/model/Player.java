@@ -8,6 +8,7 @@ public class Player {
     private List<Hand> hands;
     private List<Integer> bets;
     private List<Integer> bankroll;
+    private int[] lastTenResults = new int[10];
     private boolean canHit;
     private boolean canStand;
     private boolean canDouble;
@@ -98,6 +99,14 @@ public class Player {
         this.currentHand = currentHand;
     }
 
+    public int[] getLastTenResults() {
+        return lastTenResults;
+    }
+
+    public void setLastTenResults(int[] lastTenResults) {
+        this.lastTenResults = lastTenResults;
+    }
+
     public void setButtons() {
         //make contigent on not having blackjack
         this.setCanHit(true);
@@ -137,6 +146,12 @@ public class Player {
         newHand.setMessage("");
         this.getHands().add(newHand);
         this.setButtons();
+    }
+
+    public void resetWinList() {
+        for (int i = 0; i < 10; i++) {
+            this.lastTenResults[i] = 0;
+        }
     }
 }
 
