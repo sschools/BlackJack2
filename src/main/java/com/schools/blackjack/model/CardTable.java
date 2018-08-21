@@ -286,35 +286,25 @@ public class CardTable {
         Shoe shoe = new Shoe();
         cardTable.setShoe(shoe.loadShoe());
         cardTable.setShoe(shoe.shuffleShoe());
-        
+
         cardTable.setDealer(new Dealer());
         cardTable.setStats();
         cardTable.dealCards();
     }
 
     public void dealCards() {
-        this.setEndRound(false);
-        this.setMessage("");
-        Shoe shoe = this.getShoe();
-        Dealer dealer = this.getDealer();
-        List<Player> players = this.getPlayers();
-        for (Player player : players) {
-            List<Hand> hands = new ArrayList<>();
-            hands.add(new Hand());
-            player.setHands(hands);
-            player.setCurrentHand(0);
-        }
+        this.resetRound();
         // deals cards to players at table
         int i = this.getPlayers().size();
-        for (int j = 0; j < i; j++) {
-            Hand currentHand = players.get(j).getHands().get(0);
+        for (int j = 0; j < this.getPlayers().size(); j++) {
+            Hand currentHand = this.getPlayers().get(j).getHands().get(0);
             List<Card> cards = new ArrayList<>();
             currentHand.setCards(cards);
             currentHand.setAce(false);
             currentHand.setMessage("");
             currentHand.setActive(false);
-            Card first = shoe.getShoeCards().get(shoe.getIndex() + j);
-            Card second = shoe.getShoeCards().get(shoe.getIndex() + j + i + 1);
+            Card first = this.getShoe().getShoeCards().get(this.getShoe().getIndex() + j);
+            Card second = this.getShoe().getShoeCards().get(this.getShoe().getIndex() + j + i + 1);
             currentHand.getCards().add(first);
             currentHand.getCards().add(second);
             if (first.getName().equals("A") || second.getName().equals("A")) {
@@ -323,31 +313,27 @@ public class CardTable {
             currentHand.setTotal();
             List<Hand> hands = new ArrayList<>();
             hands.add(currentHand);
-            players.get(j).setHands(hands);
+            this.getPlayers().get(j).setHands(hands);
             this.getShoeStat().setNumHands(this.getShoeStat().getNumHands() + 1);
         }
 
         //deals dealers cards
-        dealer.setHand(new Hand());
-        Hand dealerHand = dealer.getHand();
+        this.getDealer().setHand(new Hand());
+        Hand dealerHand = this.getDealer().getHand();
         dealerHand.setCards(new ArrayList<>());
         dealerHand.setAce(false);
-        dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i));
-        dealerHand.getCards().add(shoe.getShoeCards().get(shoe.getIndex() + i + i + 1));
+        dealerHand.getCards().add(this.getShoe().getShoeCards().get(this.getShoe().getIndex() + i));
+        dealerHand.getCards().add(this.getShoe().getShoeCards().get(this.getShoe().getIndex() + i + i + 1));
         dealerHand.getCards().get(1).setAbName("**");
         if (dealerHand.getCards().get(0).getName().equals("A") || dealerHand.getCards().get(1).getName().equals("A")) {
             dealerHand.setAce(true);
         }
-        dealer.setHand(dealerHand);
+        this.getDealer().setHand(dealerHand);
 
         //moves location in shoe
-        int currentLoc = shoe.getIndex();
+        int currentLoc = this.getShoe().getIndex();
         currentLoc += 2*(i+1);
-        shoe.setIndex(currentLoc);
-
-        this.setDealer(dealer);
-        this.setPlayers(players);
-        this.setShoe(shoe);
+        this.getShoe().setIndex(currentLoc);
 
         //handles dealer having blackjack
         if (dealerHand.blackJack()) {
@@ -402,7 +388,7 @@ public class CardTable {
         cardTable.setNumShoes(numShoes);
     }
 
-    public List<Player> initializePlayers(int numPlayers) {
+    private List<Player> initializePlayers(int numPlayers) {
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
             Player newPlayer = new Player();
@@ -420,5 +406,16 @@ public class CardTable {
             players.add(newPlayer);
         }
         return players;
+    }
+
+    private void resetRound() {
+        this.setEndRound(false);
+        this.setMessage("");
+        for (Player player : this.getPlayers()) {
+            List<Hand> hands = new ArrayList<>();
+            hands.add(new Hand());
+            player.setHands(hands);
+            player.setCurrentHand(0);
+        }
     }
 }
