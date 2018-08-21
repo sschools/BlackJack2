@@ -133,50 +133,11 @@ public class CardTable {
     }
 
     private void endHand() {
-        // method should adjust bankrolls based on bets and win value of each hand
-        for (Player player : this.players) {
-            for (Hand hand : player.getHands()) {
-                List<Integer> newBank = new ArrayList<>();
-                for (int i = 0; i < player.getBets().size(); i++) {
-                    int currentBank = player.getBankroll().get(i);
-                    int currentBet = player.getBets().get(i);
-                    currentBank += currentBet * hand.getWin();
-                    newBank.add(currentBank);
-                }
-                player.setBankroll(newBank);
-            }
-        }
-        //end of shoe settings
-        if (this.getShoe().getIndex() > this.getShoe().getYellow()) {
-            this.setEndShoe(true); //thymeleaf to show stats button
-            this.setMessage("End of Shoe.");
-            this.getShoe().setEndBankrolls(new ArrayList<>());
-            for (Player player : this.getPlayers()) {
-                this.getShoe().getEndBankrolls().add(player.getBankroll().get(0));
 
-            }
-            int totalDiff = 0;
-            int max = 0;
-            int min = 0;
-            for (int i = 0; i < this.getPlayers().size(); i++) {
-                int tempDiff = this.getShoe().getEndBankrolls().get(i) - this.getShoe().getInitBankrolls().get(i);
-                if (i == 0) {
-                    min = tempDiff;
-                    max = tempDiff;
-                } else {
-                    if (tempDiff > max) {
-                        max = tempDiff;
-                    }
-                    if (tempDiff < min) {
-                        min = tempDiff;
-                    }
-                }
-                totalDiff += tempDiff;
-            }
-            this.getShoeStat().setMinBrDelta(min);
-            this.getShoeStat().setMaxBrDelta(max);
-            this.getShoeStat().setAvBrDelta( (double) totalDiff / this.getShoeStat().getNumPlayers());
-            this.getShoeStat().setWinPercent( (double) this.getShoeStat().getWinHands() / this.getShoeStat().getNumHands() * 100);
+        this.adjustBankrolls();
+
+        if (this.getShoe().getIndex() > this.getShoe().getYellow()) {
+            this.endShoeInfo();
         } else {
             this.setEndRound(true); //this is for thymeleaf to show deal button
         }
@@ -417,5 +378,53 @@ public class CardTable {
             player.setHands(hands);
             player.setCurrentHand(0);
         }
+    }
+
+    private void adjustBankrolls() {
+        for (Player player : this.getPlayers()) {
+            for (Hand hand : player.getHands()) {
+                List<Integer> newBank = new ArrayList<>();
+                for (int i = 0; i < player.getBets().size(); i++) {
+                    int currentBank = player.getBankroll().get(i);
+                    int currentBet = player.getBets().get(i);
+                    currentBank += currentBet * hand.getWin();
+                    newBank.add(currentBank);
+                }
+                player.setBankroll(newBank);
+            }
+        }
+    }
+
+    private void endShoeInfo() {
+        this.setEndShoe(true); //thymeleaf to show stats button
+        this.setMessage("End of Shoe.");
+        this.getShoe().setEndBankrolls(new ArrayList<>());
+        for (Player player : this.getPlayers()) {
+            this.getShoe().getEndBankrolls().add(player.getBankroll().get(0));
+
+        }
+        int totalDiff = 0;
+        int max = 0;
+        int min = 0;
+        for (int i = 0; i < this.getPlayers().size(); i++) {
+            int tempDiff = this.getShoe().getEndBankrolls().get(i) - this.getShoe().getInitBankrolls().get(i);
+            if (i == 0) {
+                min = tempDiff;
+                max = tempDiff;
+            } else {
+                if (tempDiff > max) {
+                    max = tempDiff;
+                }
+                if (tempDiff < min) {
+                    min = tempDiff;
+                }
+            }
+            totalDiff += tempDiff;
+        }
+        this.getShoeStat().setMinBrDelta(min);
+        this.getShoeStat().setMaxBrDelta(max);
+        this.getShoeStat().setAvBrDelta( (double) totalDiff / this.getShoeStat().getNumPlayers());
+        this.getShoeStat().setWinPercent( (double) this.getShoeStat().getWinHands() /
+                this.getShoeStat().getNumHands() * 100);
     }
 }
