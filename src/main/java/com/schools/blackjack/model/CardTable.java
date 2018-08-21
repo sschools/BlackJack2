@@ -281,29 +281,13 @@ public class CardTable {
 
     public void initializeTable(int numPlayers, String gameType, CardTable cardTable) {
         cardTable.setGameType(gameType);
-        List<Player> players = new ArrayList<>();
-        for (int i = 0; i < numPlayers; i++) {
-            Player newPlayer = new Player();
-            newPlayer.setBets(new ArrayList<>());
-            newPlayer.setBankroll(new ArrayList<>());
-            int pNum = i + 1;
-            newPlayer.setName("Player #" + Integer.toString(pNum));
-            newPlayer.getBets().add(2);
-            newPlayer.getBankroll().add(1000);
-            newPlayer.setCanHit(false);
-            newPlayer.setCanStand(false);
-            newPlayer.setCanDouble(false);
-            newPlayer.setCanSplit(false);
-            newPlayer.resetWinList();
-            players.add(newPlayer);
-        }
-        cardTable.setPlayers(players);
+        cardTable.setPlayers(this.initializePlayers(numPlayers));
+
         Shoe shoe = new Shoe();
         cardTable.setShoe(shoe.loadShoe());
         cardTable.setShoe(shoe.shuffleShoe());
-
-        Dealer dealer = new Dealer();
-        cardTable.setDealer(dealer);
+        
+        cardTable.setDealer(new Dealer());
         cardTable.setStats();
         cardTable.dealCards();
     }
@@ -416,5 +400,25 @@ public class CardTable {
     public void setUpMultipleSimulation(String pace, int numShoes, CardTable cardTable) {
         cardTable.setPace(pace);
         cardTable.setNumShoes(numShoes);
+    }
+
+    public List<Player> initializePlayers(int numPlayers) {
+        List<Player> players = new ArrayList<>();
+        for (int i = 0; i < numPlayers; i++) {
+            Player newPlayer = new Player();
+            newPlayer.setBets(new ArrayList<>());
+            newPlayer.setBankroll(new ArrayList<>());
+            int pNum = i + 1;
+            newPlayer.setName("Player #" + Integer.toString(pNum));
+            newPlayer.getBets().add(2);
+            newPlayer.getBankroll().add(1000);
+            newPlayer.setCanHit(false);
+            newPlayer.setCanStand(false);
+            newPlayer.setCanDouble(false);
+            newPlayer.setCanSplit(false);
+            newPlayer.resetWinList();
+            players.add(newPlayer);
+        }
+        return players;
     }
 }
