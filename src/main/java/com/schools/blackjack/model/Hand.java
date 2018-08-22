@@ -107,4 +107,140 @@ public class Hand {
         }
         shoe.setIndex(shoe.getIndex() + 1);
     }
+
+    public String decisionWith2Cards(int dealerUpCard) {
+        String action = "";
+        if (this.getCards().get(0).getValue() == this.getCards().get(1).getValue()) {
+            if(this.decideSplit(dealerUpCard)) {
+                action = "split";
+            } else {
+                switch (this.getCards().get(0).getValue()) {
+                    case 10:
+                    case 9:
+                        action = "stand";
+                        break;
+                    case 5:
+                        if (dealerUpCard == 10 || dealerUpCard == 1) {
+                            action = "stand";
+                        } else {
+                            action = "double";
+                        }
+                        break;
+                    default:
+                        action = "hit";
+                        break;
+                }
+            }
+        } else if (this.isAce()) {
+            action = decideWithAce(dealerUpCard);
+        } else {
+            action = decideWithPlainCards(dealerUpCard);
+        }
+        return action;
+    }
+
+    public boolean decideSplit(int dealerUpCard) {
+        boolean test = false;
+        switch (this.getCards().get(0).getValue()) {
+            case 1:
+            case 8:
+                test = true;
+                break;
+            case 10:
+            case 5:
+                test = false;
+                break;
+            case 9:
+                test = !(dealerUpCard == 1 || dealerUpCard == 7 || dealerUpCard == 10);
+                break;
+            case 7:
+            case 3:
+            case 2:
+                test = (dealerUpCard > 1 && dealerUpCard < 8);
+                break;
+            case 6:
+                test = (dealerUpCard > 1 && dealerUpCard < 7);
+            case 4:
+                test = (dealerUpCard > 4 && dealerUpCard < 7);
+                break;
+        }
+        return test;
+    }
+
+    public String decideWithAce(int dealerUpCard) {
+        String action = "";
+        switch (this.getTotal()) {
+            case 21:
+            case 20:
+            case 19:
+                action = "stand";
+                break;
+            case 18:
+                if (dealerUpCard > 2 && dealerUpCard < 7) {
+                    action = "double";
+                } else if(dealerUpCard > 1 && dealerUpCard < 8) {
+                    action = "stand";
+                } else {
+                    action = "hit";
+                }
+                break;
+            case 17:
+                if (dealerUpCard > 2 && dealerUpCard < 7) {
+                    action = "double";
+                } else {
+                    action = "hit";
+                }
+                break;
+            case 16:
+            case 15:
+                if (dealerUpCard > 3 && dealerUpCard < 7) {
+                    action = "double";
+                } else {
+                    action = "hit";
+                }
+                break;
+            case 14:
+            case 13:
+                if (dealerUpCard > 4 && dealerUpCard < 7) {
+                    action = "double";
+                } else {
+                    action = "hit";
+                }
+                break;
+        }
+        return action;
+    }
+
+    public String decideWithPlainCards(int dealerUpCard) {
+        String action = "";
+        switch (this.getTotal()) {
+            case 20:
+            case 19:
+            case 18:
+            case 17:
+                action = "stand";
+                break;
+            case 16:
+            case 15:
+            case 14:
+            case 13:
+                if (dealerUpCard > 1 && dealerUpCard < 7) {
+                    action = "stand";
+                } else {
+                    action = "hit";
+                }
+                break;
+            case 12:
+                if (dealerUpCard > 3 && dealerUpCard < 7) {
+                    action = "stand";
+                } else {
+                    action = "hit";
+                }
+                break;
+            default:
+                action = "hit";
+                break;
+        }
+        return action;
+    }
 }

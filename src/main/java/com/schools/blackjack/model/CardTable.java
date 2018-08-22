@@ -311,7 +311,9 @@ public class CardTable {
         if (dealerHand.blackJack()) {
             this.dealerHasBlackJack();
         } else {
-            this.getPlayers().get(0).setButtons();
+            if (this.gameType.equals("manual")) {
+                this.getPlayers().get(0).setButtons();
+            }
             this.setCurrentPlayer(0);
             this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setActive(true);
             this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setTotal();
@@ -319,6 +321,9 @@ public class CardTable {
                 this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setMessage("BlackJack!!!");
                 this.stand();
             }
+        }
+        if (this.gameType.equals("simMultiple")) {
+            this.autoPlay();
         }
     }
 
@@ -437,5 +442,13 @@ public class CardTable {
         this.getShoeStat().setAvBrDelta( (double) totalDiff / this.getShoeStat().getNumPlayers());
         this.getShoeStat().setWinPercent( (double) this.getShoeStat().getWinHands() /
                 this.getShoeStat().getNumHands() * 100);
+    }
+
+    private void autoPlay() {
+        Hand hand = this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0); //TODO: need to make this current hand
+        if (hand.getCards().size() == 2) {
+            String action = hand.decisionWith2Cards(this.getDealer().getHand().getCards().get(0).getValue());
+            this.doAction(action);
+        }
     }
 }
