@@ -216,12 +216,17 @@ public class CardTable {
             this.setCurrentPlayer(this.getCurrentPlayer() + 1);
             this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
             this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setActive(true);
-            this.getPlayers().get(this.getCurrentPlayer()).setButtons();
+            if (this.getGameType().equals("manual")) {
+                this.getPlayers().get(this.getCurrentPlayer()).setButtons();
+            }
             this.getPlayers().get(this.getCurrentPlayer()).setSplitHands(false);
             this.getPlayers().get(currentP).getHands().get(0).setTotal();
             if (this.getPlayers().get(currentP).getHands().get(0).getTotal() == 21) {
                 this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
                 this.stand();
+            }
+            if (this.gameType.equals("simMultiple")) {
+                this.autoPlay();
             }
         }
     }
