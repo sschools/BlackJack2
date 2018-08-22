@@ -181,10 +181,21 @@ public class CardTable {
         this.getDealer().setDealerShortName(this.getDealer().getHand().getCards().get(1));
         Hand hand = this.getDealer().getHand();
         hand.setTotal();
-        while (hand.getTotal() < 17) {
-            hand.hit(this.getShoe());
-            hand.setTotal();
+        boolean allBusted = true;
+        for (Player player : this.getPlayers()) {
+            for (Hand playerHand : player.getHands()) {
+                if (!playerHand.isBust()) {
+                    allBusted = false;
+                }
+            }
         }
+        if (!allBusted) {
+            while (hand.getTotal() < 17) {
+                hand.hit(this.getShoe());
+                hand.setTotal();
+            }
+        }
+
         this.getDealer().setHand(hand);
         this.setWins();
     }
