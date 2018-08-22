@@ -11,6 +11,7 @@ public class Hand {
     private String message;
     private boolean doubleDown;
     private boolean active;
+    private boolean soft;
 
     public Hand() {
     }
@@ -21,11 +22,13 @@ public class Hand {
 
     public void setTotal() {
         this.total = 0;
+        this.setSoft(false);
         for(Card card: this.getCards()) {
             this.total += card.getValue();
         }
         if (this.ace && this.total < 12) {
             this.total += 10;
+            this.setSoft(true);
         }
     }
 
@@ -83,6 +86,14 @@ public class Hand {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isSoft() {
+        return soft;
+    }
+
+    public void setSoft(boolean soft) {
+        this.soft = soft;
     }
 
     public boolean blackJack() {

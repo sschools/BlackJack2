@@ -445,10 +445,35 @@ public class CardTable {
     }
 
     private void autoPlay() {
-        Hand hand = this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0); //TODO: need to make this current hand
+        int currentPlayerNum = this.getCurrentPlayer();
+        int currentHandNum = this.getPlayers().get(currentPlayerNum).getCurrentHand();
+        Hand hand = this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
+        if (hand.getCards().size() == 1) {
+            this.doAction("hit");
+        }
         if (hand.getCards().size() == 2) {
             String action = hand.decisionWith2Cards(this.getDealer().getHand().getCards().get(0).getValue());
             this.doAction(action);
+            if (!hand.isAce()) {
+                while (hand.getTotal() < 17) {
+                    this.doAction("hit");
+                }
+            } else {
+                int dealerUpCard = this.getDealer().getHand().getCards().get(0).getValue();
+                if (dealerUpCard > 1 && dealerUpCard < 9) {
+                    while (hand.getTotal() < 18 && hand.isSoft()) {
+                        this.doAction("hit");
+                    }
+                } else {
+                    while (hand.getTotal() < 19 && hand.isSoft()) {
+                        this.doAction("hit");
+                    }
+                }
+                while (hand.getTotal() < 17) {
+                    this.doAction("hit");
+                }
+            }
+            this.stand();
         }
     }
 }
