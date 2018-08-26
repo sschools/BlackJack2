@@ -196,7 +196,6 @@ public class CardTable {
             }
         }
 
-        this.getDealer().setHand(hand);
         this.setWins();
     }
 
@@ -225,9 +224,16 @@ public class CardTable {
                 this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
                 this.stand();
             }
-            if (this.gameType.equals("simMultiple")) {
-                this.autoPlay();
-            }
+            autoPlaySetUp();
+        }
+    }
+
+    private void autoPlaySetUp() { //TODO: fix this stuff, auto play should be broken into smaller pieces
+        if (this.gameType.equals("simMultiple") && !this.isEndRound()) {
+            Hand hand = this.autoPlay(this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0));
+            this.getPlayers().get(this.getCurrentPlayer()).getHands().remove(0);
+            this.getPlayers().get(this.getCurrentPlayer()).getHands().add(hand);
+            this.stand();
         }
     }
 
@@ -327,9 +333,7 @@ public class CardTable {
                 this.stand();
             }
         }
-        if (this.gameType.equals("simMultiple")) {
-            this.autoPlay();
-        }
+        autoPlaySetUp();
     }
 
     public void doAction(String action) {
@@ -340,14 +344,10 @@ public class CardTable {
                 int currentHandNum = this.getPlayers().get(currentPlayerNum).getCurrentHand();
                 Hand hand = this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
                 hand.hit(this.getShoe());
-                List<Hand> hands = this.getPlayers().get(currentPlayerNum).getHands();
                 if (action.equals("double")) {
                     hand.setDoubleDown(true);
                     hand.setMessage(hand.getMessage() + "Double Down");
                 }
-                hands.remove(this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum));
-                hands.add(currentHandNum, hand);
-                this.getPlayers().get(currentPlayerNum).setHands(hands);
                 this.getPlayers().get(currentPlayerNum).setButtons();
                 if (hand.isBust() || hand.getTotal() == 21 || hand.isDoubleDown()) {
                     this.stand();
@@ -449,10 +449,7 @@ public class CardTable {
                 this.getShoeStat().getNumHands() * 100);
     }
 
-    private void autoPlay() {
-        int currentPlayerNum = this.getCurrentPlayer();
-        int currentHandNum = this.getPlayers().get(currentPlayerNum).getCurrentHand();
-        Hand hand = this.getPlayers().get(currentPlayerNum).getHands().get(currentHandNum);
+    private Hand autoPlay(Hand hand) {
         if (hand.getCards().size() == 1) {
             this.doAction("hit");
         }
@@ -478,7 +475,7 @@ public class CardTable {
                     this.doAction("hit");
                 }
             }
-            this.stand();
         }
+        return hand;
     }
 }
