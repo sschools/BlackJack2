@@ -17,6 +17,7 @@ public class CardTable {
     private String gameType;
     private String pace;
     private int numShoes;
+    private boolean dealerPlayed;
 
     public CardTable() {
     }
@@ -119,6 +120,14 @@ public class CardTable {
         this.numShoes = numShoes;
     }
 
+    public boolean isDealerPlayed() {
+        return dealerPlayed;
+    }
+
+    public void setDealerPlayed(boolean dealerPlayed) {
+        this.dealerPlayed = dealerPlayed;
+    }
+
     public void dealerHasBlackJack() {
         this.getDealer().setDealerShortName(this.getDealer().getHand().getCards().get(1));
         for (Player player : this.players) {
@@ -133,8 +142,9 @@ public class CardTable {
     }
 
     private void endHand() {
-
-        this.adjustBankrolls();
+        if(isDealerPlayed()) {
+            this.adjustBankrolls();
+        }
 
         if (this.getShoe().getIndex() > this.getShoe().getYellow()) {
             this.endShoeInfo();
@@ -196,6 +206,7 @@ public class CardTable {
             }
         }
 
+        this.setDealerPlayed(true);
         this.setWins();
     }
 
@@ -235,26 +246,30 @@ public class CardTable {
     }
 
     private void autoStand() {
-        int currentP = this.getCurrentPlayer();
-        int currentH = this.getPlayers().get(currentP).getCurrentHand();
-        this.getPlayers().get(currentP).clearButtons();
-        if (currentH < this.getPlayers().get(currentP).getHands().size() - 1) {
-            this.getPlayers().get(currentP).setCurrentHand(currentH + 1);
-            this.playHand(this.getPlayers().get(currentP).getHands().get(currentH + 1));
-        } else if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
-            this.playDealer();
-        } else {
-            currentP += 1;
-            this.setCurrentPlayer(this.getCurrentPlayer() + 1);
-            this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
-            this.getPlayers().get(this.getCurrentPlayer()).setSplitHands(false);
-            this.getPlayers().get(currentP).getHands().get(0).setTotal();
-            if (this.getPlayers().get(currentP).getHands().get(0).getTotal() == 21) {
-                this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
-                this.stand();
+        if (!this.isDealerPlayed()) {
+            int currentP = this.getCurrentPlayer();
+            int currentH = this.getPlayers().get(currentP).getCurrentHand();
+            this.getPlayers().get(currentP).clearButtons();
+            if (currentH < this.getPlayers().get(currentP).getHands().size() - 1) {
+                this.getPlayers().get(currentP).setCurrentHand(currentH + 1);
+                this.playHand(this.getPlayers().get(currentP).getHands().get(currentH + 1));
+            } else if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
+                this.playDealer();
             } else {
-                this.playHand(this.getPlayers().get(currentP).getHands().get(0));
+                currentP += 1;
+                this.setCurrentPlayer(this.getCurrentPlayer() + 1);
+                this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
+                this.getPlayers().get(this.getCurrentPlayer()).setSplitHands(false);
+                this.getPlayers().get(currentP).getHands().get(0).setTotal();
+                if (this.getPlayers().get(currentP).getHands().get(0).getTotal() == 21) {
+                    this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
+                    this.stand();
+                } else {
+                    this.playHand(this.getPlayers().get(currentP).getHands().get(0));
+                }
             }
+        } else {
+            this.endHand();
         }
     }
 
@@ -412,6 +427,7 @@ public class CardTable {
     }
 
     private void resetRound() {
+        this.setDealerPlayed(false);
         this.setEndRound(false);
         this.setMessage("");
         for (Player player : this.getPlayers()) {
