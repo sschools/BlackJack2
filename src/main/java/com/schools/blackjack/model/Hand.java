@@ -248,6 +248,13 @@ public class Hand {
                     action = "hit";
                 }
                 break;
+            case 11:
+                if (dealerUpCard > 1) {
+                    action = "double";
+                } else {
+                    action = "hit";
+                }
+                break;
             default:
                 action = "hit";
                 break;
