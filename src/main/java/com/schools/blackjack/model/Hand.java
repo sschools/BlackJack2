@@ -255,6 +255,18 @@ public class Hand {
                     action = "hit";
                 }
                 break;
+            case 10:
+                if (dealerUpCard > 1 && dealerUpCard < 10) {
+                    action = "double";
+                } else {
+                    action = "hit";
+                }
+            case 9:
+                if (dealerUpCard > 2 && dealerUpCard <7) {
+                    action = "double";
+                } else {
+                    action = "hit";
+                }
             default:
                 action = "hit";
                 break;
