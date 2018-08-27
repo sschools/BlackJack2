@@ -200,6 +200,15 @@ public class CardTable {
     }
 
     private void stand() {
+        if (this.getGameType().equals("manual")) {
+            this.manualStand();
+        } else {
+            this.autoStand();
+        }
+
+    }
+
+    private void manualStand() {
         int currentP = this.getCurrentPlayer();
         int currentH = this.getPlayers().get(currentP).getCurrentHand();
         this.getPlayers().get(currentP).clearButtons();
@@ -215,25 +224,37 @@ public class CardTable {
             this.setCurrentPlayer(this.getCurrentPlayer() + 1);
             this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
             this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0).setActive(true);
-            if (this.getGameType().equals("manual")) {
-                this.getPlayers().get(this.getCurrentPlayer()).setButtons();
-            }
+            this.getPlayers().get(this.getCurrentPlayer()).setButtons();
             this.getPlayers().get(this.getCurrentPlayer()).setSplitHands(false);
             this.getPlayers().get(currentP).getHands().get(0).setTotal();
             if (this.getPlayers().get(currentP).getHands().get(0).getTotal() == 21) {
                 this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
                 this.stand();
             }
-            autoPlaySetUp();
         }
     }
 
-    private void autoPlaySetUp() { //TODO: fix this stuff, auto play should be broken into smaller pieces
-        if (this.gameType.equals("simMultiple") && !this.isEndRound()) {
-            Hand hand = this.autoPlay(this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0));
-            this.getPlayers().get(this.getCurrentPlayer()).getHands().remove(0);
-            this.getPlayers().get(this.getCurrentPlayer()).getHands().add(hand);
-            this.stand();
+    private void autoStand() {
+        int currentP = this.getCurrentPlayer();
+        int currentH = this.getPlayers().get(currentP).getCurrentHand();
+        this.getPlayers().get(currentP).clearButtons();
+        if (currentH < this.getPlayers().get(currentP).getHands().size() - 1) {
+            this.getPlayers().get(currentP).setCurrentHand(currentH + 1);
+            this.playHand(this.getPlayers().get(currentP).getHands().get(currentH + 1));
+        } else if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
+            this.playDealer();
+        } else {
+            currentP += 1;
+            this.setCurrentPlayer(this.getCurrentPlayer() + 1);
+            this.getPlayers().get(this.getCurrentPlayer()).setCurrentHand(0);
+            this.getPlayers().get(this.getCurrentPlayer()).setSplitHands(false);
+            this.getPlayers().get(currentP).getHands().get(0).setTotal();
+            if (this.getPlayers().get(currentP).getHands().get(0).getTotal() == 21) {
+                this.getPlayers().get(currentP).getHands().get(0).setMessage("BlackJack!!!");
+                this.stand();
+            } else {
+                this.playHand(this.getPlayers().get(currentP).getHands().get(0));
+            }
         }
     }
 
@@ -333,7 +354,7 @@ public class CardTable {
                 this.stand();
             }
         }
-        autoPlaySetUp();
+        this.playHand(this.getPlayers().get(this.getCurrentPlayer()).getHands().get(0));
     }
 
     public void doAction(String action) {
@@ -449,13 +470,15 @@ public class CardTable {
                 this.getShoeStat().getNumHands() * 100);
     }
 
-    private Hand autoPlay(Hand hand) {
+    private void playHand(Hand hand) { //TODO: refactor to play one hand
         if (hand.getCards().size() == 1) {
             this.doAction("hit");
         }
         if (hand.getCards().size() == 2) {
             String action = hand.decisionWith2Cards(this.getDealer().getHand().getCards().get(0).getValue());
             this.doAction(action);
+        }
+        if (hand.getCards().size() > 2) {
             if (!hand.isAce()) {
                 while (hand.getTotal() < 17) {
                     this.doAction("hit");
@@ -475,7 +498,7 @@ public class CardTable {
                     this.doAction("hit");
                 }
             }
+            this.stand();
         }
-        return hand;
     }
 }
