@@ -23,7 +23,7 @@ public class Hand {
     public void setTotal() {
         this.total = 0;
         this.setSoft(false);
-        for(Card card: this.getCards()) {
+        for (Card card : this.getCards()) {
             this.total += card.getValue();
         }
         if (this.ace && this.total < 12) {
@@ -33,12 +33,12 @@ public class Hand {
     }
 
     public List<Card> getCards() {
-            return cards;
-        }
+        return cards;
+    }
 
     public void setCards(List<Card> cards) {
-            this.cards = cards;
-        }
+        this.cards = cards;
+    }
 
     public boolean isAce() {
         return ace;
@@ -122,7 +122,7 @@ public class Hand {
     public String decisionWith2Cards(int dealerUpCard) {
         String action = "";
         if (this.getCards().get(0).getValue() == this.getCards().get(1).getValue()) {
-            if(this.decideSplit(dealerUpCard)) {
+            if (this.decideSplit(dealerUpCard)) {
                 action = "split";
             } else {
                 switch (this.getCards().get(0).getValue()) {
@@ -189,7 +189,7 @@ public class Hand {
             case 18:
                 if (dealerUpCard > 2 && dealerUpCard < 7) {
                     action = "double";
-                } else if(dealerUpCard > 1 && dealerUpCard < 8) {
+                } else if (dealerUpCard > 1 && dealerUpCard < 8) {
                     action = "stand";
                 } else {
                     action = "hit";
@@ -261,16 +261,72 @@ public class Hand {
                 } else {
                     action = "hit";
                 }
+                break;
             case 9:
-                if (dealerUpCard > 2 && dealerUpCard <7) {
+                if (dealerUpCard > 2 && dealerUpCard < 7) {
                     action = "double";
                 } else {
                     action = "hit";
                 }
+                break;
             default:
                 action = "hit";
                 break;
         }
+        return action;
+    }
+
+    public String decisionWithMultipleCards(int dealerUpCard) {
+        String action = "";
+        if (!this.isSoft()) {
+            switch (this.getTotal()) {
+                case 20:
+                case 19:
+                case 18:
+                case 17:
+                    action = "stand";
+                    break;
+                case 16:
+                case 15:
+                case 14:
+                case 13:
+                    if (dealerUpCard > 1 && dealerUpCard < 7) {
+                        action = "stand";
+                    } else {
+                        action = "hit";
+                    }
+                    break;
+                case 12:
+                    if (dealerUpCard > 3 && dealerUpCard < 7) {
+                        action = "stand";
+                    } else {
+                        action = "hit";
+                    }
+                    break;
+                default:
+                    action = "hit";
+                    break;
+            }
+        } else {
+            switch (this.getTotal()) {
+                case 11:
+                case 10:
+                case 9:
+                    action = "stand";
+                    break;
+                case 8:
+                    if (dealerUpCard == 2 || dealerUpCard == 7 || dealerUpCard == 8) {
+                        action = "stand";
+                    } else {
+                        action = "hit";
+                    }
+                    break;
+                default:
+                    action = "hit";
+                    break;
+            }
+        }
+
         return action;
     }
 }
