@@ -252,6 +252,7 @@ public class CardTable {
             this.getPlayers().get(currentP).clearButtons();
             if (currentH < this.getPlayers().get(currentP).getHands().size() - 1) {
                 this.getPlayers().get(currentP).setCurrentHand(currentH + 1);
+                this.getPlayers().get(currentP).clearButtons();
                 this.playHand(this.getPlayers().get(currentP).getHands().get(currentH + 1));
             } else if (this.getCurrentPlayer() == this.getPlayers().size() - 1) {
                 this.playDealer();
@@ -495,6 +496,9 @@ public class CardTable {
             this.doAction(action);
         }
         if (hand.getCards().size() > 2) {
+
+            String action = hand.decisionWithMultipleCards(this.getDealer().getHand().getCards().get(0).getValue());
+
             if (!hand.isAce()) {
                 while (hand.getTotal() < 17) {
                     this.doAction("hit");
