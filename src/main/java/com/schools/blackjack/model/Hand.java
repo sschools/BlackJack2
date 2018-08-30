@@ -278,7 +278,9 @@ public class Hand {
 
     public String decisionWithMultipleCards(int dealerUpCard) {
         String action = "";
-        if (!this.isSoft()) {
+        if (this.getTotal() >= 21) {
+            action = "stand";
+        } else if (!this.isSoft()) {
             switch (this.getTotal()) {
                 case 20:
                 case 19:

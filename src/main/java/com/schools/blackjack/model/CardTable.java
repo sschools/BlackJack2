@@ -18,6 +18,7 @@ public class CardTable {
     private String pace;
     private int numShoes;
     private boolean dealerPlayed;
+    private boolean bankrollAdjusted;
 
     public CardTable() {
     }
@@ -126,6 +127,14 @@ public class CardTable {
 
     public void setDealerPlayed(boolean dealerPlayed) {
         this.dealerPlayed = dealerPlayed;
+    }
+
+    public boolean isBankrollAdjusted() {
+        return bankrollAdjusted;
+    }
+
+    public void setBankrollAdjusted(boolean bankrollAdjusted) {
+        this.bankrollAdjusted = bankrollAdjusted;
     }
 
     public void dealerHasBlackJack() {
@@ -429,6 +438,7 @@ public class CardTable {
 
     private void resetRound() {
         this.setDealerPlayed(false);
+        this.setBankrollAdjusted(false);
         this.setEndRound(false);
         this.setMessage("");
         for (Player player : this.getPlayers()) {
@@ -440,17 +450,20 @@ public class CardTable {
     }
 
     private void adjustBankrolls() {
-        for (Player player : this.getPlayers()) {
-            for (Hand hand : player.getHands()) {
-                List<Integer> newBank = new ArrayList<>();
-                for (int i = 0; i < player.getBets().size(); i++) {
-                    int currentBank = player.getBankroll().get(i);
-                    int currentBet = player.getBets().get(i);
-                    currentBank += currentBet * hand.getWin();
-                    newBank.add(currentBank);
+        if (!this.isBankrollAdjusted()) {
+            for (Player player : this.getPlayers()) {
+                for (Hand hand : player.getHands()) {
+                    List<Integer> newBank = new ArrayList<>();
+                    for (int i = 0; i < player.getBets().size(); i++) {
+                        int currentBank = player.getBankroll().get(i);
+                        int currentBet = player.getBets().get(i);
+                        currentBank += currentBet * hand.getWin();
+                        newBank.add(currentBank);
+                    }
+                    player.setBankroll(newBank);
                 }
-                player.setBankroll(newBank);
             }
+            this.setBankrollAdjusted(true);
         }
     }
 
@@ -487,7 +500,7 @@ public class CardTable {
                 this.getShoeStat().getNumHands() * 100);
     }
 
-    private void playHand(Hand hand) { //TODO: refactor to play one hand
+    private void playHand(Hand hand) {
         if (hand.getCards().size() == 1) {
             this.doAction("hit");
         }
@@ -498,27 +511,16 @@ public class CardTable {
         if (hand.getCards().size() > 2) {
 
             String action = hand.decisionWithMultipleCards(this.getDealer().getHand().getCards().get(0).getValue());
+            System.out.println("Total before while loop " + hand.getTotal());
+            System.out.println("Action before while loop " + action);
 
-            if (!hand.isAce()) {
-                while (hand.getTotal() < 17) {
-                    this.doAction("hit");
-                }
-            } else {
-                int dealerUpCard = this.getDealer().getHand().getCards().get(0).getValue();
-                if (dealerUpCard > 1 && dealerUpCard < 9) {
-                    while (hand.getTotal() < 18 && hand.isSoft()) {
-                        this.doAction("hit");
-                    }
-                } else {
-                    while (hand.getTotal() < 19 && hand.isSoft()) {
-                        this.doAction("hit");
-                    }
-                }
-                while (hand.getTotal() < 17) {
-                    this.doAction("hit");
-                }
+            while (!action.equals("stand")) {
+                this.doAction("hit");
+                action = hand.decisionWithMultipleCards(this.getDealer().getHand().getCards().get(0).getValue());
+                System.out.println("Action in loop " + action);
+                System.out.println(hand.getTotal());
             }
-            this.stand();
+            this.doAction("stand");
         }
     }
 }
