@@ -516,6 +516,8 @@ public class CardTable {
 
             while (!action.equals("stand")) {
                 this.doAction("hit");
+                int currentHand = this.getPlayers().get(getCurrentPlayer()).getCurrentHand();
+                hand = this.getPlayers().get(getCurrentPlayer()).getHands().get(currentHand);
                 action = hand.decisionWithMultipleCards(this.getDealer().getHand().getCards().get(0).getValue());
                 System.out.println("Action in loop " + action);
                 System.out.println(hand.getTotal());
